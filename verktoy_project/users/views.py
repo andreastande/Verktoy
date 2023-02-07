@@ -8,9 +8,6 @@ from django.contrib import messages
 
 # Create your views here.
 
-def home(request): #placeholder
-    return render(request, 'users/home.html')
-
 #https://docs.djangoproject.com/en/4.1/topics/auth/default/#how-to-log-a-user-in
 #https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
 def signup(request):
