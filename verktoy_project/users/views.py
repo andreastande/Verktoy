@@ -9,12 +9,12 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request): #placeholder
-    return render(request, 'registration/home.html')
+    return render(request, 'users/home.html')
 
 #https://docs.djangoproject.com/en/4.1/topics/auth/default/#how-to-log-a-user-in
 #https://simpleisbetterthancomplex.com/tutorial/2017/02/18/how-to-create-user-sign-up-view.html
 def signup(request):
-    if request.method == 'POST':
+    if request.method == 'POST': #når man sender skjema
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -26,7 +26,6 @@ def signup(request):
         else:
             print("Invalid form")
             return render(request, 'users/signup.html', {'form': form})
-            #messages.info(request, 'Ugyldige registreringsdetaljer')
     else:
-        form = UserCreationForm
+        form = UserCreationForm #når man laster inn login siden først
     return render(request, 'users/signup.html', {'form': form})
