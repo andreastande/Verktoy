@@ -7,7 +7,7 @@
     <body>
         {% if user.is_authenticated %}
             <p>Velkommen {{user.username}}!</p>
-            <a href="listing/1">See listing 1</a>
+            <a href="{% url 'homepage:listing' 1 %}">See listing 1</a>
             <br>
             <a href="{% url 'logout' %}">Logg ut</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
             <br>
