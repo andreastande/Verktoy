@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="nb">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hjem</title>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+            <p>Velkommen {{user.username}}!</p>
+            <a href="{% url 'homepage:listing' 1 %}">See listing 1</a>
+            <br>
+            <a href="{% url 'logout' %}">Logg ut</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
+            <br>
+            <a href="{% url 'homepage:add_listing' %}">Opprett annonse</a>
+        {% else %}
+            <p>Du er ikke innlogget</p>
+            <a href="{% url 'login' %}">Logg inn</a>
+
+            <br>
+            <a href="{% url 'users:signup' %}">Trykk her for å registrere deg</a>
+        {% endif %}
+    </body>
+
+</html>
