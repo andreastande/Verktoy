@@ -19,8 +19,8 @@ def add_listing(request):
             listing = form.save(commit=False)
             listing.owner = request.user
             listing.save()
-            return redirect('listing', listing.id) ###HER ÆRRE TRØBBEL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
+            #return render(request, '')
+            return redirect('homepage:home') ###HER ÆRRE TRØBBEL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     else:
         form = ListingForm()
 

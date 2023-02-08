@@ -9,12 +9,12 @@
             <p>Velkommen {{user.username}}!</p>
             <a href="listing/1">See listing 1</a>
             <br>
-            <a href="{% url 'logout' %}">Logg ut her</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
+            <a href="{% url 'logout' %}">Logg ut</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
             <br>
-            <a href="listing/add">Opprett annonse</a>
+            <a href="{% url 'homepage:add_listing' %}">Opprett annonse</a>
         {% else %}
             <p>Du er ikke innlogget</p>
-            <a href="{% url 'login' %}">Logg inn her</a>
+            <a href="{% url 'login' %}">Logg inn</a>
 
             <br>
             <a href="{% url 'users:signup' %}">Trykk her for å registrere deg</a>
