@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="nb">
-    <head>
-        <meta charset="UTF-8">
-        <title>Min profil</title>
-    </head>
-    <body>
+{% extends "users/base.html" %}
+{% block title %} Min profil {% endblock title%}
+{% block content %}
+    <div>
         <p>Navn: {{user.username}}</p>
         <br>
         <a href="{% url 'users:update_profile' %}">Trykk her for å oppdatere profilen din</a>
         <br>
         
         <a href="{% url 'homepage:home' %}">Til hovedside</a>
-    </body>
-    
-</html>
+    </div>
+
+{% endblock content %}

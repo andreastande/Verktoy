@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <title>Annonse</title>
-  </head>
-
-    <body>
-        <p>Tittel: {{listing.title}}</p>
-        <br>
-        <p>Eier: {{listing.owner}}</p>
-        <br>
-        <p>Sted:</p>
-        <p>{{listing.location}}</p>
-        <br>
-        <p>Beskrivelse:</p>
-        <p>{{listing.description}}</p>
-        <br>
-        <p>Kategori</p>
-        <p>{{listing.get_category_display}}</p>
-
-        <br>
-    </body>
-</html>
+{% extends "users/base.html" %}
+{% block title %} Annonse {% endblock title%}
+{% block content %}
+    <div>
+      <p>Tittel: {{listing.title}}</p>
+      <br>
+      <p>Eier: {{listing.owner}}</p>
+      <br>
+      <p>Sted:</p>
+      <p>{{listing.location}}</p>
+      <br>
+      <p>Beskrivelse:</p>
+      <p>{{listing.description}}</p>
+      <br>
+      <p>Kategori</p>
+      <p>{{listing.get_category_display}}</p>
+      <br>
+      <a href="{% url 'homepage:home' %}">Tilbake til hjemmeside</a>
+    </div>
+{% endblock content %}

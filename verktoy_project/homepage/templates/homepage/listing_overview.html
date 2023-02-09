@@ -1,0 +1,10 @@
+{% extends "users/base.html" %}
+{% block title %} Annonse {% endblock title%}
+{% block content %}
+    <div>
+        {% for listing in all_listings %}
+            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock content %}

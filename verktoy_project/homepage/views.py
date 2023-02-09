@@ -4,14 +4,19 @@ from .forms import ListingForm
 
 # Create your views here.
 
+
 #Henter hjemmesiden
 def home(request): #placeholder
     return render(request, 'homepage/home.html')
 
 #Henter en spesifikk annonse, spesifisert med annonse_id
-def listing(request, annonse_id):
-    listing = get_object_or_404(Listing, pk = annonse_id)
+def listing(request, listing_id):
+    listing = get_object_or_404(Listing, pk = listing_id)
     return render(request, 'homepage/listing.html', {'listing': listing})
+
+def listing_overview(request):
+    all_listings = Listing.objects.all()
+    return render(request, 'homepage/listing_overview.html', {'all_listings': all_listings})
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
 def add_listing(request):
