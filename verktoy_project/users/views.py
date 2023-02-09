@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -31,3 +33,17 @@ def my_profile(request):
     current_user = request.user
     context = {'user': current_user}
     return render(request, 'users/my_profile.html', context)
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profilen din ble oppdatert')
+            return redirect('users:my_profile')
+        
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+    context = {'profile_form': profile_form}
+    return render(request, 'users/update_profile.html', context)

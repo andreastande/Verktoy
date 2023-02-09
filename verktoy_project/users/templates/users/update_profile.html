@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="nb">
+    <head>
+        <meta charset="UTF-8">
+        <title>Oppdater profil</title>
+    </head>
+    <body>
+        <form action="" method = "post">
+            {% csrf_token %}
+            {{ profile_form.as_p }}
+            <input type="submit" value="Oppdater">
+        </form>
+        <br>
+        <a href="{% url 'users:my_profile' %}">Trykk her for å gå tilbake til profilen din</a>
+    </body>
+    
+</html>

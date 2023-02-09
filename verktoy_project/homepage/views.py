@@ -14,7 +14,6 @@ def listing(request, annonse_id):
 def add_listing(request):
     if request.method == 'POST':
         form = ListingForm(request.POST)
-        print(request.user)
         if form.is_valid:
             listing = form.save(commit=False)
             listing.owner = request.user

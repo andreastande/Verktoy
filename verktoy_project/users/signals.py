@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from .models import Profile
 
 #https://dev.to/earthcomfy/django-user-profile-3hik
+#Gjør at det opprettes et Profil-objekt automatisk når bruker opprettes
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
