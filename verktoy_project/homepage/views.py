@@ -20,7 +20,7 @@ def add_listing(request):
             listing.owner = request.user
             listing.save()
             #return render(request, '')
-            return redirect('homepage:home') ###HER ÆRRE TRØBBEL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            return redirect('homepage:home')
     else:
         form = ListingForm()
 
