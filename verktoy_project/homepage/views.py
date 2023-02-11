@@ -9,6 +9,10 @@ from .forms import ListingForm
 def home(request): #placeholder
     return render(request, 'homepage/home.html')
 
+#Henter landingpage
+def landingpage(request): #placeholder
+    return render(request, 'homepage/landingpage.html')
+
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)

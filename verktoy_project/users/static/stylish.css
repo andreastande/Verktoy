@@ -19,7 +19,6 @@
 
 .contentbox{
     margin: auto;
-    margin-top: 10px;
     width: 50%;
     padding: 10px;
     text-align: center;
@@ -40,18 +39,16 @@ h5 {
     text-align: center;
     padding: 1vh;
 }
-
 .topbar a{
     font-weight: bold;
     font-size: 5vw;
     color: white;
 }
-
 .topbar a:visited{
     color: white;
 }
 
-button, .knapp {
+button, .knapp, .knappStor {
     background-color: rgb(97, 152, 255);
     padding: 4px;
     text-decoration: none;
@@ -59,16 +56,41 @@ button, .knapp {
     font-family: 'Courier New', Courier, monospace;
     color: black;
     border: none;
-    font-size: 16px;   
+    border-radius: 2px;
+    font-size: 16px; 
+
 }
 
-button:hover, .knapp:hover{
+.knappStor {
+    padding: 10px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+button:hover, .knapp:hover, .knappStor:hover{
     background-color: rgb(118, 222, 206);
 }
-button:active, .knapp:active{
+button:active, .knapp:active, .knappStor:active{
     background-color: rgb(60, 247, 219);
 }
 
-.knapp:visited{
+.knapp:visited, .knappStor:visited{
     color: black;
+}
+
+.landingpage {
+    background-image: radial-gradient(rgba(255, 255, 255, 0),black);
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 5vw;
+    color: white;
+}
+.landingpage .logodiv{
+    padding-top: 35vh;
+    padding-bottom: 35vh;
+}
+.landingpage a:visited{
+    color: white;
 }

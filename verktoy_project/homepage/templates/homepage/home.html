@@ -3,7 +3,7 @@
 {% block content %}
     <div>
         {% if user.is_authenticated %}
-            <p>Velkommen {{user.username}}!</p>
+            <h1>Velkommen {{user.username}}!</h1>
             <a href="{% url 'homepage:listing_overview' %}" class="knapp">Se alle annonser</a>
             <br>
             <br>
@@ -18,11 +18,15 @@
             <br>
       
         {% else %}
-            <p>Du er ikke innlogget</p>
-            <a href="{% url 'login' %}" class="knapp">Logg inn</a>
+            <h1>Velkommen</h1>
+            <br>
+
+            <p>Logg inn eller registrer deg for å kunne vise og lage annonser</p>
             <br>
             <br>
-            <a href="{% url 'users:signup' %}" class="knapp">Registrer deg</a>
+            <br>
+            <a href="{% url 'login' %}" class="knappStor">Logg inn</a>
+            <a href="{% url 'users:signup' %}" class="knappStor">Registrer deg</a>
         {% endif %}
     </div>
 {% endblock content %}

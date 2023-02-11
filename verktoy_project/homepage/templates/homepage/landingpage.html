@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="nb">
+  <head>
+    <link rel="stylesheet" href="{% static 'stylish.css'%}">
+    <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
+    <meta charset="utf-8" />
+    <title>
+      landingpage
+    </title>
+  </head>
+
+
+  <body class="bg">
+    <div class="landingpage">
+        <div class="logodiv">
+            <a href="{% url 'homepage:home' %}">Logoo</a>
+        </div>
+        <div>
+            <a href="{% url 'homepage:home' %}" class=knapp>Videre</a>
+        </div>
+    </div>
+
+  </body>
