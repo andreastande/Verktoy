@@ -1,0 +1,41 @@
+.bg {
+    background-image: linear-gradient(white, rgb(168, 236, 249));
+    height: 100vh;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+.centered {
+    background-color: rgb(220, 220, 220);
+    margin: auto;
+    width: 50%;
+    border: 3px solid black;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+h5 {
+    color: rgb(0, 0, 0);
+    font-size: larger;
+}
+
+button {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.topbar {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    padding: 1vh;
+}
+
+.topbar a{
+    font-weight: bold;
+    font-size: 5vw;
+    color: black;
+}
+
+.topbar a:visited{
+    color: black;
+}
