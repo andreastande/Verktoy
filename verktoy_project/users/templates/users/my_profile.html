@@ -4,10 +4,8 @@
     <div>
         <p>Navn: {{user.username}}</p>
         <br>
-        <a href="{% url 'users:update_profile' %}">Trykk her for å oppdatere profilen din</a>
-        <br>
-        
-        <a href="{% url 'homepage:home' %}">Til hovedside</a>
+        <!--Vis bio-->
+        <a href="{% url 'users:update_profile' %}" class="knapp">Opdater profil</a>
     </div>
 
 {% endblock content %}

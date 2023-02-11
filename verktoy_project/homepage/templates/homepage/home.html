@@ -4,19 +4,25 @@
     <div>
         {% if user.is_authenticated %}
             <p>Velkommen {{user.username}}!</p>
-            <a href="{% url 'users:my_profile' %}">Gå til din profil</a>
+            <a href="{% url 'homepage:listing_overview' %}" class="knapp">Se alle annonser</a>
             <br>
-            <a href="{% url 'homepage:listing_overview' %}">Se alle annonser</a>
             <br>
-            <a href="{% url 'logout' %}">Logg ut</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
+            <a href="{% url 'homepage:add_listing' %}" class="knapp">Opprett annonse</a>
             <br>
-            <a href="{% url 'homepage:add_listing' %}">Opprett annonse</a>
+            <br>
+            <br>
+            <a href="{% url 'users:my_profile' %}" class="knapp">Min profil</a>
+            <br>
+            <br>
+            <a href="{% url 'logout' %}" class="knapp">Logg ut</a> {% comment %} merk at logout er innebygd url som logger ut og lenker til det som er spesifisert i settings.py {% endcomment %}
+            <br>
+      
         {% else %}
             <p>Du er ikke innlogget</p>
-            <a href="{% url 'login' %}">Logg inn</a>
-
+            <a href="{% url 'login' %}" class="knapp">Logg inn</a>
             <br>
-            <a href="{% url 'users:signup' %}">Trykk her for å registrere deg</a>
+            <br>
+            <a href="{% url 'users:signup' %}" class="knapp">Registrer deg</a>
         {% endif %}
     </div>
 {% endblock content %}

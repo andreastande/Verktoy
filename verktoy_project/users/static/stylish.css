@@ -1,27 +1,38 @@
 .bg {
-    background-image: linear-gradient(white, rgb(168, 236, 249));
-    height: 100vh;
+    margin: 0px;
+    background-image: url("../static/img/standinBG.jpg");
+    background-size: cover;
+    height: 100%;
+    min-height: 100vh;
     font-family: 'Courier New', Courier, monospace;
-
 }
 
-.centered {
-    background-color: rgb(220, 220, 220);
+.contentBG {
+    background-color: rgb(255, 255, 255);
+    margin: 0px;
+    margin-top: 10px;
+    width: 100%;
+    padding: 0px;
+    min-height: 80vh;
+    height: auto;
+}
+
+.contentbox{
     margin: auto;
+    margin-top: 10px;
     width: 50%;
-    border: 3px solid black;
     padding: 10px;
-    border-radius: 10px;
+    text-align: center;
 }
+
 
 h5 {
     color: rgb(0, 0, 0);
     font-size: larger;
+    margin: 10px;
+    margin-left: 0px;
 }
 
-button {
-    font-family: 'Courier New', Courier, monospace;
-}
 
 .topbar {
     margin: auto;
@@ -33,9 +44,31 @@ button {
 .topbar a{
     font-weight: bold;
     font-size: 5vw;
-    color: black;
+    color: white;
 }
 
 .topbar a:visited{
+    color: white;
+}
+
+button, .knapp {
+    background-color: rgb(97, 152, 255);
+    padding: 4px;
+    text-decoration: none;
+    box-shadow: 2px;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    border: none;
+    font-size: 16px;   
+}
+
+button:hover, .knapp:hover{
+    background-color: rgb(118, 222, 206);
+}
+button:active, .knapp:active{
+    background-color: rgb(60, 247, 219);
+}
+
+.knapp:visited{
     color: black;
 }

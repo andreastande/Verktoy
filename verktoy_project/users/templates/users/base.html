@@ -3,23 +3,24 @@
 <html lang="nb">
   <head>
     <link rel="stylesheet" href="{% static 'stylish.css'%}">
-    
+    <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
     <meta charset="utf-8" />
     <!-- Navn på siden -->
     <title>
-      {% block title %}
-
-      {% endblock %}
+      {% block title %}{% endblock %}
     </title>
   </head>
   <header> <div class="topbar">
-    <a href="{% url 'homepage:home' %}">Verktøy-Utlån</a>
+    <a href="{% url 'homepage:home' %}">Logoo</a>
   </div> </header>
+
   <body class="bg">
-    <div class="centered">
-      <!-- Sideinnhold -->
-      {% block content %}
-      {% endblock %}
+    <div class="contentBG">
+      <div class="contentbox">
+        <!-- Sideinnhold -->
+        {% block content %}
+        {% endblock %}
+      </div>
     </div>
   </body>
 </html>
