@@ -20,7 +20,7 @@ from django.shortcuts import redirect
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include("django.contrib.auth.urls")), #henter URLer fra Authentication Views. https://docs.djangoproject.com/en/4.0/topics/auth/default/#module-django.contrib.auth.views
-    path('users/', include('users.urls')),
-    path('homepage/', include('homepage.urls')),
-    path('', lambda req: redirect('homepage/home')), #sender til hjemmeside ved "tom" url
+    path('users/', include('users.urls')), #users app url'er
+    path('homepage/', include('homepage.urls')), #homepage app url'er
+    path('', lambda req: redirect('homepage/landingpage')), #sender til landingpage ved "tom" url
 ]

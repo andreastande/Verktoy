@@ -1,0 +1,11 @@
+{% extends "users/base.html" %}
+{% block title %} Min profil {% endblock title%}
+{% block content %}
+    <div>
+        <p>Navn: {{user.username}}</p>
+        <br>
+        <!--Vis bio-->
+        <a href="{% url 'users:update_profile' %}" class="knapp">Opdater profil</a>
+    </div>
+
+{% endblock content %}

@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-
-<html lang="nb">
-    <head>
-        <meta charset="UTF-8">
-        <title>Sign up</title>
-    </head>
-    <body>
-        <h3>Registrer bruker</h3>
-        
+{% extends "users/base.html" %}
+{% block title %} Registreringsside {% endblock title%}
+{% block content %}
+    <div>
         <form method="post">            
             {% csrf_token %}
 
@@ -35,6 +29,8 @@
                 <li>Kan ikke kun være tall</li>
             </ul>
         </div>
-    </body>
+        <a href="{% url 'homepage:home' %}" class="knapp">Tilbake</a>
 
-</html>
+    </div>
+
+{% endblock content %}
