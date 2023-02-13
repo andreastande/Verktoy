@@ -2,18 +2,25 @@
 {% block title %} Annonse {% endblock title%}
 {% block content %}
     <div>
-      <p>Tittel: {{listing.title}}</p>
+      <p class="listing_title">{{listing.title}}</p>
+      <p>{{listing.owner}}</p> {% comment "" %} Burde linke til brukerprofil når vi har laget brukerprofiler :){% endcomment %}
       <br>
-      <p>Eier: {{listing.owner}}</p>
+      <p>Utlånsstatus: <br>
+        {% if listing.loaned %}
+          Utlånt
+        {% else %}
+          Tilgjengelig for utlån
+        {% endif %}
+      </p>
       <br>
-      <p>Sted:</p>
-      <p>{{listing.location}}</p>
+      <p>Sted: <br>
+        {{listing.location}}</p>
       <br>
-      <p>Beskrivelse:</p>
-      <p>{{listing.description}}</p>
+      <p>Beskrivelse: <br>
+        {{listing.location}}</p>
       <br>
-      <p>Kategori</p>
-      <p>{{listing.get_category_display}}</p>
+      <p>Kategori <br>
+        {{listing.location}}</p>
       <br>
       <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
     </div>
