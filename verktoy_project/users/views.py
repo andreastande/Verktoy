@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
@@ -36,6 +37,13 @@ def my_profile(request):
     current_user = request.user
     context = {'user': current_user}
     return render(request, 'users/my_profile.html', context)
+
+@login_required
+def profile(request, userstring):
+    requested_user = User.objects.get(username = userstring)
+    context = {'user': requested_user}
+    return render(request, 'users/profile.html', context)
+
 
 #henter siden for å oppdatere profil. Bruker ProfileForm definert i forms.py
 @login_required
