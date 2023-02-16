@@ -3,7 +3,7 @@
 {% block content %}
     <div>
       <p class="listing_title">{{listing.title}}</p>
-      <p>{{listing.owner}}</p> {% comment "" %} Burde linke til brukerprofil når vi har laget brukerprofiler :){% endcomment %}
+      <p><a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
       <br>
       <p>Utlånsstatus: <br>
         {% if listing.loaned %}

@@ -9,7 +9,7 @@
                     <div class="listingContent">
                         <h2>{{listing.title}}</h2>
                         <div class="listingImg"></div>
-                        <p>Eier: {{listing.owner}}</p>
+                        <p>Eier:   <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a> </p>
                         <p>Sted: {{listing.location}}</p>
                         <p>Kategori : {{listing.get_category_display}}</p>
                         <br>
