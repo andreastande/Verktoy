@@ -36,13 +36,15 @@ def signup(request):
 @login_required
 def my_profile(request):
     current_user = request.user
-    context = {'user': current_user}
+    user_listings = current_user.listing_set.all()
+    user_profile = current_user.profile
+
+    context = {'user': current_user, 'listings': user_listings, 'profile': user_profile}
     return render(request, 'users/my_profile.html', context)
 
 @login_required
 def profile(request, userstring):
     requested_user = User.objects.get(username = userstring)
-
     user_listings = requested_user.listing_set.all()
     user_profile = requested_user.profile
 
