@@ -6,7 +6,7 @@
             {% if not listing.loaned %}
                 <div>
                     <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
-                    <p>Eier: {{listing.owner}}</p>
+                    <p>Eier:   <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a> </p>
                     <p>Sted: {{listing.location}}</p>
                     <p>Kategori : {{listing.get_category_display}}</p>
                     <br>
