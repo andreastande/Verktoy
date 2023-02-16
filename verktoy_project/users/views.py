@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.contrib import messages
+from homepage.models import Listing
 
 
 # Create your views here.
@@ -41,7 +42,11 @@ def my_profile(request):
 @login_required
 def profile(request, userstring):
     requested_user = User.objects.get(username = userstring)
-    context = {'user': requested_user}
+
+    user_listings = requested_user.listing_set.all()
+    user_profile = requested_user.profile
+
+    context = {'user': requested_user, 'listings': user_listings, 'profile': user_profile}
     return render(request, 'users/profile.html', context)
 
 
