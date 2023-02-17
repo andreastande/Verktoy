@@ -94,3 +94,10 @@ button:active, .knapp:active, .knappStor:active{
 .landingpage a:visited{
     color: white;
 }
+
+.listingDIV{
+    background-color: aquamarine;
+    padding-top: 10px;
+    margin: 2vh;
+    border-radius: 5px;
+}

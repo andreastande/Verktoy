@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="nb">
   <head>
-    <link rel="stylesheet" href="{% static 'stylish.css'%}">
+    <!-- ?{% now "U" %} gjør at .css ikke caches, kan fjernes når development er ferdig-->
+    <link rel="stylesheet" href="{% static 'stylish.css'%}?{% now "U" %}">
     <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
     <meta charset="utf-8" />
     <!-- Navn på siden -->

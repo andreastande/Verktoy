@@ -4,7 +4,7 @@
     <div>
         {% for listing in all_listings %}
             {% if not listing.loaned %}
-                <div>
+                <div class="listingDIV">
                     <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
                     <p>Eier: {{listing.owner}}</p>
                     <p>Sted: {{listing.location}}</p>
