@@ -14,7 +14,9 @@
   <body class="bg">
     <div class="landingpage">
         <div class="logodiv">
-            <a href="{% url 'homepage:home' %}">Logoo</a>
+            <a href="{% url 'homepage:home' %}">
+              <img src="{% static 'img/logo.png' %}" alt="En nydelig logo" class="logoIMG">
+            </a>
         </div>
         <div>
             <a href="{% url 'homepage:home' %}" class=knapp>Videre</a>
