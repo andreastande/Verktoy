@@ -5,7 +5,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.contrib import messages
-
+from django.views import generic
+from homepage.models import Listing
 
 # Create your views here.
 
@@ -34,7 +35,11 @@ def signup(request):
 @login_required
 def my_profile(request):
     current_user = request.user
-    context = {'user': current_user}
+    own_listings=Listing.objects.filter(owner=current_user)
+    context = {'user': current_user,
+               'own_listings': own_listings,
+            }
+    #Henter liste over egene annonser
     return render(request, 'users/my_profile.html', context)
 
 #henter siden for å oppdatere profil. Bruker ProfileForm definert i forms.py

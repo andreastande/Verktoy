@@ -5,7 +5,18 @@
         <p>Navn: {{user.username}}</p>
         <br>
         <!--Vis bio-->
-        <a href="{% url 'users:update_profile' %}" class="knapp">Opdater profil</a>
+        <p>Beskrivelse: {{user.profile_form}}</p>
+        <br>
+        <p>Mine annonser:
+            <br>
+        {% for listing in own_listings %}
+            <a href="/homepage/listing/{{ listing.id }}">{{listing.title}}</a>
+            <br>
+        {% endfor %}
+        </ul>
+        <br>
+        <br>
+        <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater profil</a>
     </div>
 
 {% endblock content %}
