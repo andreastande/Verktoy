@@ -1,21 +1,9 @@
+from django.forms import ValidationError
 from django.test import TestCase
 from homepage.models import Listing
 from users.models import User
 
 # Create your tests here.
-
-'''
-Generell kommentar:
-
-    Tror det er en del feil med Listing-klassen. Jeg kan sette attributtene til hva en jeg vil,
-    uavhengig av hvilken datatype den skal være. Kan for eksempel sette attributtet 'loaned' til
-    "God dag" når det egentlig skal være en boolean, og får ingen feilmeldinger. Dermed vil så og si
-    alle tester jeg lager godkjennes, selv om de egentlig skal failes. Dette må fikses før jeg får
-    skrevet bedre tester
-
-    Men ellers vil formatet på denne enhetstesten av Listing-klassen være relativt lik.
-
-'''
 
 class ListingTests(TestCase):
     def setUpTestData():
@@ -80,3 +68,16 @@ class ListingTests(TestCase):
         self.assertEqual(3, listing.category)
         listing.category = 5
         self.assertEqual(5, listing.category)
+
+    def test_errorLoaned(self):
+        user = User.objects.get(id=1)
+        try:
+            listing = Listing.objects.create(  owner=user,
+                                            title="Sag", 
+                                            loaned="Utlånt", 
+                                            location="Trondheim", 
+                                            description="Mye brukt", 
+                                            category=1)
+            self.fail
+        except ValidationError:
+            pass
