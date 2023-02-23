@@ -1,9 +1,8 @@
 
 {% extends "users/base.html" %}
-{% block title %} Opprett profil {% endblock title%}
+{% block title %} Opprett ny annonseliste {% endblock title%}
 {% block content %}
     <div>
-        <!--TODO: After submitting listing, return to listing overview or your profile-->
         <form action="" method = "post">
             {% csrf_token %}
             {{ form.as_p }}

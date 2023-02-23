@@ -1,6 +1,6 @@
 .bg {
     margin: 0px;
-    background-image: url("../static/img/standinBG.jpg");
+    background-image: url("../static/img/standinBG2_r.jpg");
     background-size: cover;
     height: 100%;
     min-height: 100vh;
@@ -32,24 +32,31 @@ h5 {
     margin-left: 0px;
 }
 
-
 .topbar {
     margin: auto;
-    width: 50%;
-    text-align: center;
     padding: 1vh;
+    text-align: center;
 }
-.topbar a{
-    font-weight: bold;
-    font-size: 5vw;
-    color: white;
+
+.topbar .logoIMG{
+    height: 15vh;
 }
-.topbar a:visited{
-    color: white;
+
+.topbarBox{
+    width: 48%;
+    margin-top: 3vh;
+    display: inline-block;
+    text-align: right;
+}
+.topbarBoxImg{
+    width: 48%;
+    margin-top: 3vh;
+    display: inline-block;
+    text-align: left;
 }
 
 button, .knapp, .knappStor {
-    background-color: rgb(97, 152, 255);
+    background-color: rgb(180, 229, 242);
     padding: 4px;
     text-decoration: none;
     box-shadow: 2px;
@@ -58,7 +65,6 @@ button, .knapp, .knappStor {
     border: none;
     border-radius: 2px;
     font-size: 16px; 
-
 }
 
 .knappStor {
@@ -68,10 +74,11 @@ button, .knapp, .knappStor {
 }
 
 button:hover, .knapp:hover, .knappStor:hover{
-    background-color: rgb(118, 222, 206);
+    background-color: rgb(162, 229, 247);
 }
+
 button:active, .knapp:active, .knappStor:active{
-    background-color: rgb(60, 247, 219);
+    background-color: rgb(80, 217, 255);
 }
 
 .knapp:visited, .knappStor:visited{
@@ -79,7 +86,7 @@ button:active, .knapp:active, .knappStor:active{
 }
 
 .landingpage {
-    background-image: radial-gradient(rgba(255, 255, 255, 0),black);
+    background-image: radial-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.705));
     height: 100vh;
     width: 100%;
     text-align: center;
@@ -87,10 +94,48 @@ button:active, .knapp:active, .knappStor:active{
     font-size: 5vw;
     color: white;
 }
+
 .landingpage .logodiv{
     padding-top: 35vh;
     padding-bottom: 35vh;
 }
-.landingpage a:visited{
-    color: white;
+
+.landingpage .logoIMG{
+    height: 20vh;
+}
+
+.listingDIV{
+    background-color: rgba(218, 218, 218, 0.737);
+    box-shadow: 1px 3px 5px rgba(63, 63, 63, 0.813);
+    padding: 2vh;
+    margin: 1vw;
+    border-radius: 5px;
+    display: inline-block;
+    width: 20vw;
+    height: 40vh;
+    line-height: 5px;
+    text-align: left;
+}
+
+.listingDIV:hover{
+    background-color: rgba(192, 223, 225, 0.737);
+}
+
+.listingLink{
+    color: transparent;
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    line-height: normal;
+}
+
+.listingImg{
+    display: inline-block;
+    background-color: brown;
+    height: 20vh;
+    width: 20vh;
+}
+
+.listingContent{
+    text-align: center;
 }
