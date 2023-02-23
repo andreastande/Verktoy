@@ -12,6 +12,8 @@ class UserTest(TestCase):
     def test_createUser(self):
         user1 = User.objects.create_user(username="OlaNordmann", password="jeglikerkoding")
         user2 = User.objects.create_user(username="JensMuri", password="gløshaugen")
+        self.assertEqual("OlaNordmann", user1.username)
+        self.assertEqual("JensMuri", user2.username)
 
     def test_createSameUserButDiffPassword(self):
         user1 = User.objects.create_user(username="OlaNordmann", password="jeglikerkoding")
