@@ -91,13 +91,12 @@ button:active, .knapp:active, .knappStor:active{
     width: 100%;
     text-align: center;
     font-weight: bold;
-    font-size: 5vw;
+    font-size: 20px;
     color: white;
 }
 
 .landingpage .logodiv{
     padding-top: 35vh;
-    padding-bottom: 35vh;
 }
 
 .landingpage .logoIMG{
@@ -107,12 +106,12 @@ button:active, .knapp:active, .knappStor:active{
 .listingDIV{
     background-color: rgba(218, 218, 218, 0.737);
     box-shadow: 1px 3px 5px rgba(63, 63, 63, 0.813);
-    padding: 2vh;
-    margin: 1vw;
+    padding: 20px;
+    margin: 20px;
     border-radius: 5px;
     display: inline-block;
-    width: 20vw;
-    height: 40vh;
+    width: 270px;
+    height: 250px;
     line-height: 5px;
     text-align: left;
 }
@@ -132,10 +131,21 @@ button:active, .knapp:active, .knappStor:active{
 .listingImg{
     display: inline-block;
     background-color: brown;
-    height: 20vh;
-    width: 20vh;
+    height: 120px;
+    width: 120px;
 }
 
 .listingContent{
     text-align: center;
+}
+
+.bioDIV {
+    background-color: rgb(222, 229, 229);
+    border-radius: 10px;
+    padding: 50px;
+    margin: 20px;
+    width: 400px;
+    height: auto;
+
+    display: inline-block;
 }

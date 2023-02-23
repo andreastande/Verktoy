@@ -1,28 +1,40 @@
 {% extends "users/base.html" %}
 {% block title %} Min profil {% endblock title%}
 {% block content %}
-    <div>
-        <h2>Velkommen til din profil, {{user.username}}</h2>
+<div>
+    <h1>Velkommen til din profil, {{user.username}}!</h1>
 
-        <div>
-            <h3>Biografi</h3>
+    <div>
+        <h3>Biografi</h3>
+        <div class='bioDIV'>
             <p>
                 {{profile.bio}}
             </p>
         </div>
-
-        <br>
-
-        <div>
-            <h3>Mine annonser</h3>
-            {% for listing in listings %}
-            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
-            <br>
-            <br>
-            {% endfor %}
-        </div>
-        <br>
-        <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater profil</a>
     </div>
+
+    <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
+    <br>
+
+    <div>
+        <h3>Mine annonser</h3>
+        {% for listing in listings %}
+        <div class="listingDIV">
+            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+            <div class="listingContent">
+                <h2>{{listing.title}}</h2>
+                <div class="listingImg"></div>
+                <br>
+                <br>
+                <p>Sted: {{listing.location}}</p>
+                <p>Kategori : {{listing.get_category_display}}</p>
+                <br>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    <br>
+</div>
 
 {% endblock content %}
