@@ -31,7 +31,7 @@ def add_listing(request):
             listing.owner = request.user
             listing.save()
             #return render(request, '')
-            return redirect('homepage:home')
+            return redirect('homepage:listing_overview')
     else:
         form = ListingForm()
 

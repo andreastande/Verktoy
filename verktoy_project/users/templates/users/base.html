@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="nb">
   <head>
-    <link rel="stylesheet" href="{% static 'stylish.css'%}">
+    <!-- ?{% now "U" %} gjør at .css ikke caches, kan fjernes når development er ferdig-->
+    <link rel="stylesheet" href="{% static 'stylish.css'%}?{% now "U" %}">
     <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
     <meta charset="utf-8" />
     <!-- Navn på siden -->
@@ -11,8 +12,24 @@
     </title>
   </head>
   <header> <div class="topbar">
-    <a href="{% url 'homepage:home' %}">Logoo</a>
-  </div> </header>
+    <div class="topbarBoxImg"> 
+      <a href="{% url 'homepage:listing_overview' %}" class="Logo">
+        <img src="{% static 'img/logo.png' %}" alt="En nydelig logo" class="logoIMG">
+      </a>
+    </div>
+    <div class="topbarBox">
+        <a href="{% url 'homepage:listing_overview' %}" class="knapp">Annonser</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'homepage:add_listing' %}" class="knapp">Opprett Annonse</a>
+        <a href="{% url 'users:my_profile' %}" class="knapp">Min Profil</a>
+        <a href="{% url 'logout' %}" class="knapp">Logg Ut</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="knapp">Logg inn</a>
+        <a href="{% url 'users:signup' %}" class="knapp">Registrer deg</a>
+        {% endif %}
+    </div>
+  </div>
+</header>
 
   <body class="bg">
     <div class="contentBG">
