@@ -6,13 +6,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.contrib import messages
-<<<<<<< HEAD
 from django.views import generic
 from homepage.models import Listing
-=======
-from homepage.models import Listing
-
->>>>>>> a7dcab0ce9210290ace188f93c88e7a510291703
 
 # Create your views here.
 
@@ -41,18 +36,10 @@ def signup(request):
 @login_required
 def my_profile(request):
     current_user = request.user
-<<<<<<< HEAD
-    own_listings=Listing.objects.filter(owner=current_user)
-    context = {'user': current_user,
-               'own_listings': own_listings,
-            }
-    #Henter liste over egene annonser
-=======
     user_listings = current_user.listing_set.all()
     user_profile = current_user.profile
 
     context = {'user': current_user, 'listings': user_listings, 'profile': user_profile}
->>>>>>> a7dcab0ce9210290ace188f93c88e7a510291703
     return render(request, 'users/my_profile.html', context)
 
 @login_required
