@@ -1,0 +1,27 @@
+{% extends "users/base.html" %}
+{% block title %} {{user.username}}s profil {% endblock title%}
+{% block content %}
+    <div>
+        <h2>{{user.username}}s profil</h2>
+
+        <div>
+            <h3>Biografi</h3>
+            <p>
+                {{profile.bio}}
+            </p>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>Annonser</h3>
+            {% for listing in listings %}
+            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
+            <br>
+            <br>
+            {% endfor %}
+        </div>
+        <p></p>
+    </div>
+
+{% endblock content %}

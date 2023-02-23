@@ -2,8 +2,17 @@
 {% block title %} Min profil {% endblock title%}
 {% block content %}
     <div>
-        <p>Navn: {{user.username}}</p>
+        <h2>Velkommen til din profil, {{user.username}}</h2>
+
+        <div>
+            <h3>Biografi</h3>
+            <p>
+                {{profile.bio}}
+            </p>
+        </div>
+
         <br>
+<<<<<<< HEAD
         <!--Vis bio-->
         <p>Beskrivelse: {{user.profile_form}}</p>
         <br>
@@ -15,6 +24,17 @@
         {% endfor %}
         </ul>
         <br>
+=======
+
+        <div>
+            <h3>Annonser</h3>
+            {% for listing in listings %}
+            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
+            <br>
+            <br>
+            {% endfor %}
+        </div>
+>>>>>>> a7dcab0ce9210290ace188f93c88e7a510291703
         <br>
         <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater profil</a>
     </div>

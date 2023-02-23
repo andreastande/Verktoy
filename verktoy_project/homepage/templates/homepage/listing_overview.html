@@ -3,8 +3,19 @@
 {% block content %}
     <div>
         {% for listing in all_listings %}
-            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
-            <br>
+            {% if not listing.loaned %}
+                <div class="listingDIV">
+                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                    <div class="listingContent">
+                        <h2>{{listing.title}}</h2>
+                        <div class="listingImg"></div>
+                        <p>Eier:   <a href="{% url 'users:profile' listing.owner %}">  <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a> </a> </p>
+                        <p>Sted: {{listing.location}}</p>
+                        <p>Kategori : {{listing.get_category_display}}</p>
+                        <br>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock content %}

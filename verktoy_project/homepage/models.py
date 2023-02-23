@@ -28,7 +28,7 @@ class Listing(models.Model):
     category = models.PositiveSmallIntegerField(
         choices = CATEGORY_CHOICES,
         default = OT,
-        verbose_name="Kategori"
+        verbose_name="Kategori",
     )
 
     def __str__(self):
