@@ -12,6 +12,19 @@
         </div>
 
         <br>
+<<<<<<< HEAD
+        <!--Vis bio-->
+        <p>Beskrivelse: {{user.profile_form}}</p>
+        <br>
+        <p>Mine annonser:
+            <br>
+        {% for listing in own_listings %}
+            <a href="/homepage/listing/{{ listing.id }}">{{listing.title}}</a>
+            <br>
+        {% endfor %}
+        </ul>
+        <br>
+=======
 
         <div>
             <h3>Annonser</h3>
@@ -21,6 +34,7 @@
             <br>
             {% endfor %}
         </div>
+>>>>>>> a7dcab0ce9210290ace188f93c88e7a510291703
         <br>
         <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater profil</a>
     </div>
