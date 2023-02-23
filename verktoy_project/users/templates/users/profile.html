@@ -16,12 +16,19 @@
         <div>
             <h3>Annonser</h3>
             {% for listing in listings %}
-            <a href="{% url 'homepage:listing' listing_id=listing.id %}">{{listing.title}}</a>
-            <br>
-            <br>
+            <div class="listingDIV">
+                <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                <div class="listingContent">
+                    <h2>{{listing.title}}</h2>
+                    <div class="listingImg"></div>
+                    <p>Eier: {{listing.owner}}</p>
+                    <p>Sted: {{listing.location}}</p>
+                    <p>Kategori : {{listing.get_category_display}}</p>
+                    <br>
+                </div>
+            </div>
             {% endfor %}
         </div>
-        <p></p>
     </div>
 
 {% endblock content %}

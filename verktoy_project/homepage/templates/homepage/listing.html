@@ -3,7 +3,8 @@
 {% block content %}
     <div>
       <p class="listing_title">{{listing.title}}</p>
-      <p><a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
+      <div class="listingImg"></div>
+      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
       <br>
       <p>Utlånsstatus: <br>
         {% if listing.loaned %}
