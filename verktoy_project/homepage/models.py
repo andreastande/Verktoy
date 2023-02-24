@@ -17,12 +17,16 @@ class Listing(models.Model):
     PT = 2
     WD = 3
     CT = 4
-    OT = 5
+    SV = 5
+    BO = 6
+    OT = 7
     CATEGORY_CHOICES = (
         (SW, 'Saging'),
         (PT, 'Maling'),
         (WD, 'Sveising'),
         (CT, 'Kutt/Kapping'),
+        (SV, 'Skruverktøy'),
+        (BO, 'Slagverktøy'),
         (OT, 'Annet'),
     )
     category = models.PositiveSmallIntegerField(
