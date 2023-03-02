@@ -25,4 +25,14 @@
       <br>
       <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
     </div>
+    <br>
+    <div>
+{% comment %}       <button onclick="location.href={% url 'homepage:listing' listing.id %}", name="request_button" type="button">
+        Forespør utlån
+      </button> {% endcomment %}
+      <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
+      </form>
+    </div>
 {% endblock content %}

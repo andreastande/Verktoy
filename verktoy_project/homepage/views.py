@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Listing
+from .models import Listing, Agreement, AgreementRequest
 from .forms import ListingForm
 
 # Create your views here.
@@ -16,6 +16,11 @@ def landingpage(request): #placeholder
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
+
+    #Hvis man forespør avtale gjennom knappen
+    if request.POST.get('request_btn'):
+        agreementRequest = AgreementRequest.objects.create_agreement(listing.owner, request.user, listing)
+        agreementRequest.save()
     return render(request, 'homepage/listing.html', {'listing': listing})
 
 def listing_overview(request):
