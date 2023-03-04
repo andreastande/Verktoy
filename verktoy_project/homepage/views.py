@@ -19,7 +19,7 @@ def listing(request, listing_id):
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
-        agreementRequest = AgreementRequest.objects.create_agreement(listing.owner, request.user, listing)
+        agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
         agreementRequest.save()
     return render(request, 'homepage/listing.html', {'listing': listing})
 

@@ -70,4 +70,4 @@ class AgreementRequest(models.Model):
     loaner = models.ForeignKey(User, verbose_name = "Låner", related_name="agreement_req_loaner", on_delete=models.CASCADE, null=False)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE) 
 
-    objects = AgreementRequestManager
+    objects = AgreementRequestManager()
