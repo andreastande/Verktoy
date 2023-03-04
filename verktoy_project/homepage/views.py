@@ -17,8 +17,12 @@ def landingpage(request): #placeholder
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
     
+    #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:
-        return render(request, 'homepage/my_listing.html', {'listing': listing})
+        agreementRequests = listing.agreement_req_listing.all()
+        print(agreementRequests)
+        return render(request, 'homepage/my_listing.html', {'listing': listing, 'agreement_requests': agreementRequests})
+    
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
