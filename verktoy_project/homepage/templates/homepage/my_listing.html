@@ -1,10 +1,9 @@
 {% extends "users/base.html" %}
-{% block title %} Annonse {% endblock title%}
+{% block title %} Min {{listing.title}} {% endblock title%}
 {% block content %}
     <div>
       <p class="listing_title">{{listing.title}}</p>
       <div class="listingImg"></div>
-      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
       <br>
       <p>Utlånsstatus: <br>
         {% if listing.loaned %}
@@ -23,13 +22,12 @@
       <p>Kategori <br>
         {{listing.get_category_display}}</p>
       <br>
+      <div>
+        {% if listing.agreement_req_owner == request.user %}
+            <p>heyo</p>
+        {% endif %}
       <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
     </div>
-    <br>
-    <div>
-      <form action="{% url 'homepage:listing' listing.id %}" method="POST">
-        {% csrf_token %}
-        <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
-      </form>
     </div>
+    <br>
 {% endblock content %}

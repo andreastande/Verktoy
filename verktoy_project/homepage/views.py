@@ -16,6 +16,9 @@ def landingpage(request): #placeholder
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
+    
+    if listing.owner == request.user:
+        return render(request, 'homepage/my_listing.html', {'listing': listing})
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
