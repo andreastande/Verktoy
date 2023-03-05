@@ -70,3 +70,16 @@ def edit_listing(request, listing_id):
             return render(request, 'homepage/listing.html', context)
 
     return render(request, 'homepage/listing_edit.html', {'form':form})
+
+#Henter en side for å slette en spesifikk annonse, spesifisert med annonseid og brukernavn
+def remove_listing(request, listing_id):
+    if request.POST.get('remove_list'):
+        listing = get_object_or_404(Listing, pk = listing_id)
+        listing.delete()
+        return redirect('homepage:listing_overview')
+    agreementRequests = listing.agreement_req_listing.all()
+    notRequested = True
+    for requests in agreementRequests:
+        if requests.loaner == request.user:
+            notRequested= False
+    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})     

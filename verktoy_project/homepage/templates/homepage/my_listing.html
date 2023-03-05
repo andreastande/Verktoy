@@ -30,6 +30,12 @@
       <br>
       <br>
       <a href="{% url 'homepage:edit_listing' listing_id=listing.id %}" class="knapp">Rediger</a>
+      <br>
+      <br>
+      <form action="{% url 'homepage:remove_listing' listing.id %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette annonsen?')">
+        {% csrf_token %}
+        <button type="submit" value = "Click" name="remove_list">Slett annonse</button>
+      </form>
     </div>
     </div>
     <br>
