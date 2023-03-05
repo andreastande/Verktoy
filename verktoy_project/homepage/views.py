@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Listing, Agreement, AgreementRequest
-from .forms import ListingForm
+from .forms import ListingForm, EditListingForm
 
 # Create your views here.
 
@@ -54,3 +54,19 @@ def add_listing(request):
         form = ListingForm()
 
     return render(request, 'homepage/listing_create.html',{'form':form})
+
+#Henter en side for å redigere på en spesifikk annonse, spesifisert med annonseid og brukernavn
+def edit_listing(request, listing_id):
+    queryset = Listing.objects.get(id=listing_id)
+    form = EditListingForm(instance=queryset)
+    if request.method == 'POST':
+        form = EditListingForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            requested_listing = get_object_or_404(Listing, pk = listing_id)
+            current_user = request.user
+            boolean_same_user = requested_listing.owner == current_user
+            context = {'same_user': boolean_same_user, 'listing': requested_listing}
+            return render(request, 'homepage/listing.html', context)
+
+    return render(request, 'homepage/listing_edit.html', {'form':form})

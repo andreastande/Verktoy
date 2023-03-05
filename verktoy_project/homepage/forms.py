@@ -7,3 +7,9 @@ class ListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = ['title', 'category', 'location', 'description']
+
+#Skjema for å redigere Listing (annonse)
+class EditListingForm(ModelForm):
+    class Meta:
+        model = Listing
+        fields = ['title', 'category', 'location', 'description']

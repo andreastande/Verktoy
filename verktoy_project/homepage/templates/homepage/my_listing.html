@@ -27,6 +27,9 @@
           <p>Låneforespørsel fra <a href="{% url 'users:profile' ag_req.loaner %}">{{ag_req.loaner}}</a></p>
         {% endfor %}
       <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
+      <br>
+      <br>
+      <a href="{% url 'homepage:edit_listing' listing_id=listing.id %}" class="knapp">Rediger</a>
     </div>
     </div>
     <br>
