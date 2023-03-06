@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Listing, Agreement, AgreementRequest
 from .forms import ListingForm, EditListingForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -26,6 +27,7 @@ def declineAgreement(agreement_request):
         agreement_request.delete()
 
 #Henter en spesifikk annonse, spesifisert med annonse_id
+@login_required
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
     agreementRequests = listing.agreement_req_listing.all()
