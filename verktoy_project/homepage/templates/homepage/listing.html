@@ -6,6 +6,10 @@
       <div class="listingImg"></div>
       <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
       <br>
+      <br>
+      <p>Pris: <br>
+        {{listing.price}}</p>
+      <br>
       <p>Utlånsstatus: <br>
         {% if listing.loaned %}
           Utlånt
