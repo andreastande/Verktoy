@@ -15,16 +15,18 @@
 
     <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
     <br>
+    <br>
+    <h3>Annonser</h3>
     <div>
-        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+        <form action="{% url 'users:my_profile' %}" method="POST">
             {% csrf_token %}
-            <button></button>
-
+            <button type="submit" value = "Click" name="my_listings">Mine annonser</button>
+            <button type="submit" value = "Click" name="loaned_out">Mine utlån</button>
+            <button type="submit" value = "Click" name="my_loans">Mine lån</button>
         </form>
     </div>
 
     <div>
-        <h3>Mine annonser</h3>
         {% for listing in listings %}
             <div class="listingDIV">
                 <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
@@ -33,8 +35,9 @@
                     <div class="listingImg"></div>
                     <p>Sted: {{listing.location}}</p>
                     <p>Kategori : {{listing.get_category_display}}</p>
+                    
                     {% if listing.agreement_req_listing.all %}
-                    <p>Forespurt</p>
+                        <p>Forespurt</p>
                     {% endif %}
             </div>
         {% endfor %}

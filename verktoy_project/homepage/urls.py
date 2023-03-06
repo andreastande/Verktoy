@@ -9,5 +9,4 @@ urlpatterns = [
     path('listing/<int:listing_id>', views.listing, name='listing'),
     path('listing/add/', views.add_listing, name='add_listing'),
     path('listing/overview', views.listing_overview, name='listing_overview'),
-    #path('listing/<int:listing_id>', views.agreementResponse, name='agreement_response'),
 ]
