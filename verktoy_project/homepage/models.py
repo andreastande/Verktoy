@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 # Create your models here.
 
@@ -38,4 +39,36 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+    
 
+class AgreementManager(models.Manager):
+    def create_agreement(self, owner, loaner, listing):
+        agreement =self.create(owner=owner, loaner=loaner, listing=listing, )
+        return agreement
+
+#Klasse for å lage avtaler mellom to brukere angående en annonse
+class Agreement(models.Model):
+    owner = models.ForeignKey(User, verbose_name = "Eier", related_name="agreement_owner", on_delete=models.CASCADE, null=False)
+    loaner = models.ForeignKey(User, verbose_name = "Låner", related_name="agreement_loaner", on_delete=models.CASCADE, null=False)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+    start_date = models.DateField(null = True, verbose_name ="Startdato")
+    end_date = models.DateField(null = True, verbose_name="Sluttdato")
+    pending = models.BooleanField(default=True)
+    active = models.BooleanField(null=True)
+
+    objects = AgreementManager()
+
+#Klasse for å lage forespørsel om avtale mellom to brukere angående en annonse
+class AgreementRequestManager(models.Manager):
+    def create_agreement_request(self, owner, loaner, listing):
+        agreementRequest =self.create(owner=owner, loaner=loaner, listing=listing, )
+        return agreementRequest
+
+
+class AgreementRequest(models.Model):
+    owner = models.ForeignKey(User, verbose_name = "Eier",  related_name="agreement_req_owner", on_delete=models.CASCADE, null=False)
+    loaner = models.ForeignKey(User, verbose_name = "Låner", related_name="agreement_req_loaner", on_delete=models.CASCADE, null=False)
+    listing = models.ForeignKey(Listing, related_name = "agreement_req_listing", on_delete=models.CASCADE) 
+
+    objects = AgreementRequestManager()
