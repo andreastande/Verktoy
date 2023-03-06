@@ -15,18 +15,27 @@
 
     <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
     <br>
+    <div>
+        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+            {% csrf_token %}
+            <button></button>
+
+        </form>
+    </div>
 
     <div>
         <h3>Mine annonser</h3>
         {% for listing in listings %}
-        <div class="listingDIV">
-            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
-            <div class="listingContent">
-                <h2>{{listing.title}}</h2>
-                <div class="listingImg"></div>
-                <p>Sted: {{listing.location}}</p>
-                <p>Kategori : {{listing.get_category_display}}</p>
-                <br>
+            <div class="listingDIV">
+                <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                <div class="listingContent">
+                    <h2>{{listing.title}}</h2>
+                    <div class="listingImg"></div>
+                    <p>Sted: {{listing.location}}</p>
+                    <p>Kategori : {{listing.get_category_display}}</p>
+                    {% if listing.agreement_req_listing.all %}
+                    <p>Forespurt</p>
+                    {% endif %}
             </div>
         {% endfor %}
     </div>

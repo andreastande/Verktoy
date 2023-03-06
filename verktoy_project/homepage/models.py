@@ -59,7 +59,7 @@ class AgreementManager(models.Manager):
 class Agreement(models.Model):
     owner = models.ForeignKey(User, verbose_name = "Eier", related_name="agreement_owner", on_delete=models.CASCADE, null=False)
     loaner = models.ForeignKey(User, verbose_name = "Låner", related_name="agreement_loaner", on_delete=models.CASCADE, null=False)
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, related_name = "agreement_listing", on_delete=models.CASCADE)
 
     start_date = models.DateField(auto_now_add=True, verbose_name ="Startdato")
     end_date = models.DateField(null = True, verbose_name="Sluttdato")

@@ -14,17 +14,15 @@ def landingpage(request): #placeholder
     return render(request, 'homepage/landingpage.html')
 
 #Oppretter en avtale, basert på på forespørselen som input
-def createAgreement(agreement_request):
-        print(agreement_request)
-        print("forespørsel akseptert")
+def createAgreement(listing, agreement_request):
         agreement = Agreement.objects.create_agreement_from_request(agreement_request)
         agreement.save()
         agreement_request.delete()
+        listing.loaned = True
     
 #Sletter forespørsel om avtale
 def declineAgreement(agreement_request):
         agreement_request.delete()
-        print("forespørsel slettet")
 
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
@@ -36,7 +34,11 @@ def listing(request, listing_id):
     if request.POST.get('accept_btn'):
         ag_req_pk = request.POST.get('ag_req_pk_field')
         agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
-        createAgreement(agreement_request)
+        createAgreement(listing, agreement_request)
+
+        #Avslår andre forespørsler knyttet til objektet
+        for request in agreementRequests:
+            declineAgreement(agreement_request)
 
 
     #Ved trykk av avslå-knappen til en av forespørslene på din egen annonse
@@ -58,6 +60,7 @@ def listing(request, listing_id):
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
+
 
     return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})
     
