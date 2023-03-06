@@ -55,7 +55,7 @@ def listing(request, listing_id):
         if listing.loaned:
             loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
             print(loanedBy)
-        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy}
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests}
         return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
