@@ -13,11 +13,31 @@ def home(request): #placeholder
 def landingpage(request): #placeholder
     return render(request, 'homepage/landingpage.html')
 
+""" def agreementResponse(request, listing_id, agreement_request):
+    listing = get_object_or_404(Listing, pk = listing_id)
+    
+
+    if request.POST.get('accept_btn'):
+        print("accept")
+
+    elif request.POST.get('decline_btn'):
+        print("decline") """
+    
+
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
     agreementRequests = listing.agreement_req_listing.all()
     notRequested = True
+
+    if request.POST.get('accept_btn'):
+        ag_req_pk = request.POST.get('ag_req_pk_field')
+        ag_req = AgreementRequest.objects.get(pk=ag_req_pk)
+        print(ag_req)
+        print("accept")
+
+    elif request.POST.get('decline_btn'):
+        print("decline")
 
     #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:

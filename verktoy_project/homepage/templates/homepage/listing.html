@@ -33,5 +33,11 @@
           <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
         </form>
       </div>
+    {% else %}
+    <div>
+      <p>
+        Lån er allerede forespurt
+      </p>
+    </div>
     {% endif %}
 {% endblock content %}
