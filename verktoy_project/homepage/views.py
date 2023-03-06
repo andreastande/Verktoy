@@ -13,16 +13,18 @@ def home(request): #placeholder
 def landingpage(request): #placeholder
     return render(request, 'homepage/landingpage.html')
 
-""" def agreementResponse(request, listing_id, agreement_request):
-    listing = get_object_or_404(Listing, pk = listing_id)
+#Oppretter en avtale, basert på på forespørselen som input
+def createAgreement(agreement_request):
+        print(agreement_request)
+        print("forespørsel akseptert")
+        agreement = Agreement.objects.create_agreement_from_request(agreement_request)
+        agreement.save()
+        agreement_request.delete()
     
-
-    if request.POST.get('accept_btn'):
-        print("accept")
-
-    elif request.POST.get('decline_btn'):
-        print("decline") """
-    
+#Sletter forespørsel om avtale
+def declineAgreement(agreement_request):
+        agreement_request.delete()
+        print("forespørsel slettet")
 
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
@@ -30,25 +32,29 @@ def listing(request, listing_id):
     agreementRequests = listing.agreement_req_listing.all()
     notRequested = True
 
+    #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
     if request.POST.get('accept_btn'):
         ag_req_pk = request.POST.get('ag_req_pk_field')
-        ag_req = AgreementRequest.objects.get(pk=ag_req_pk)
-        print(ag_req)
-        print("accept")
+        agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
+        createAgreement(agreement_request)
 
+
+    #Ved trykk av avslå-knappen til en av forespørslene på din egen annonse
     elif request.POST.get('decline_btn'):
-        print("decline")
+        ag_req_pk = request.POST.get('ag_req_pk_field')
+        agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
+        declineAgreement(agreement_request)
 
     #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:
         return render(request, 'homepage/my_listing.html', {'listing': listing, 'agreement_requests': agreementRequests})
-    
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
         agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
         agreementRequest.save()
 
+    #sjekker hvorvidt innlogget bruker har forespurt verktøyet allerede
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
