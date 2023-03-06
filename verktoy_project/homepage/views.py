@@ -19,6 +19,7 @@ def createAgreement(listing, agreement_request):
         agreement.save()
         agreement_request.delete()
         listing.loaned = True
+        listing.save()
     
 #Sletter forespørsel om avtale
 def declineAgreement(agreement_request):
@@ -29,6 +30,8 @@ def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
     agreementRequests = listing.agreement_req_listing.all()
     notRequested = True
+    loanedBy = None
+
 
     #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
     if request.POST.get('accept_btn'):
@@ -49,7 +52,11 @@ def listing(request, listing_id):
 
     #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:
-        return render(request, 'homepage/my_listing.html', {'listing': listing, 'agreement_requests': agreementRequests})
+        if listing.loaned:
+            loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
+            print(loanedBy)
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy}
+        return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
@@ -61,8 +68,8 @@ def listing(request, listing_id):
         if requests.loaner == request.user:
             notRequested= False
 
-
-    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy}
+    return render(request, 'homepage/listing.html', context)
     
 
 def listing_overview(request):

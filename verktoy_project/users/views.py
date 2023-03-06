@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
 from django.contrib import messages
 from django.views import generic
-from homepage.models import Listing
+from homepage.models import Listing, Agreement
 
 # Create your views here.
 
@@ -38,8 +38,25 @@ def my_profile(request):
     current_user = request.user
     user_listings = current_user.listing_set.all()
     user_profile = current_user.profile
+    listings = []
 
-    context = {'user': current_user, 'listings': user_listings, 'profile': user_profile}
+    if request.POST.get('loaned_out'):
+        for listing in user_listings:
+            if listing.loaned:
+                listings.append(listing)
+    
+    elif request.POST.get('my_loans'):
+        agreements= Agreement.objects.filter(loaner=request.user)
+        for agreement in agreements:
+            listings.append(agreement.listing)
+        #listings = agreements.objects.agreement_listing.all()
+    
+    else:
+        for listing in user_listings:
+            if not listing.loaned:
+                listings.append(listing)
+
+    context = {'user': current_user, 'listings': listings, 'profile': user_profile}
     return render(request, 'users/my_profile.html', context)
 
 @login_required

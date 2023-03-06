@@ -11,7 +11,7 @@
       <br>
       <p>Utlånsstatus: <br>
         {% if listing.loaned %}
-          Utlånt
+           Utlånt til {{loanedBy}}
         {% else %}
           Tilgjengelig for utlån
         {% endif %}
@@ -33,7 +33,7 @@
               <form action="{% url 'homepage:listing' listing.id%}" method="POST">
                 {% csrf_token %}
                 Låneforespørsel fra <a href="{% url 'users:profile' ag_req.loaner %}">{{ag_req.loaner}}</a><br>
-                <input type="hidden" name="ag_req_pk" value="{{ag_req.pk}}">
+                <input type="hidden" name="ag_req_pk_field" value="{{ag_req.pk}}">
                 <button type="submit" value="Click" name="accept_btn">Aksepter</button>
                 <button type="submit" value="Click" name="decline_btn">Avslå</button>
 
