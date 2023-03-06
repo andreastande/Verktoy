@@ -6,7 +6,7 @@ from .models import Listing
 class ListingForm(ModelForm):
     class Meta:
         model = Listing
-        fields = ['title', 'category', 'location', 'price' 'description']
+        fields = ['title', 'category', 'location', 'price', 'description']
 
 #Skjema for å redigere Listing (annonse)
 class EditListingForm(ModelForm):
