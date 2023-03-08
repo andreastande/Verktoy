@@ -8,6 +8,8 @@ from .forms import ProfileForm
 from django.contrib import messages
 from django.views import generic
 from homepage.models import Listing
+from homepage.models import UserDefinedList
+from .forms import MakeFavouritesListForm
 
 # Create your views here.
 
@@ -38,8 +40,16 @@ def my_profile(request):
     current_user = request.user
     user_listings = current_user.listing_set.all()
     user_profile = current_user.profile
-
-    context = {'user': current_user, 'listings': user_listings, 'profile': user_profile}
+    mine_favoritter = current_user.list_owner.all()
+    form = MakeFavouritesListForm(request.POST)
+    allListings = Listing.objects.all()
+    if form.is_valid():
+        newList = form.save(commit=False)
+        newList.owner = current_user
+        newList.save()        
+    else:
+        form = MakeFavouritesListForm()
+    context = {'user': current_user, 'listings': user_listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
     return render(request, 'users/my_profile.html', context)
 
 @login_required

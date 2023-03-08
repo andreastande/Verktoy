@@ -28,12 +28,21 @@ def listing(request, listing_id):
     if request.POST.get('request_btn'):
         agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
         agreementRequest.save()
+    
+    dropdownList = request.user.list_owner.all()
+
+    if request.POST.get('add_to_fav_btn'):
+        active_user = request.user
+        chosenUserListName = request.POST.get('userListDD')
+        chosenUserList = active_user.list_owner.all().filter(listName=chosenUserListName).first()
+        chosenUserList.annonser.add(listing)
+
 
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
 
-    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})
+    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested, 'dropdownList':dropdownList})
     
 
 def listing_overview(request):

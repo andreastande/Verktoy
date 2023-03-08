@@ -4,7 +4,7 @@ from . import views
 app_name="homepage"
 
 urlpatterns = [
-    path('home/', views.home, name='home'), #placeholder
+    path('home/', views.home, name='home'), #placeholder?
     path('landingpage/', views.landingpage, name='landingpage'),
     path('listing/<int:listing_id>', views.listing, name='listing'),
     path('listing/add/', views.add_listing, name='add_listing'),

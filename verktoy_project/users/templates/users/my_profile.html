@@ -15,6 +15,20 @@
 
     <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
     <br>
+    <h3>Mine favoritter</h3>
+
+    <form action="" method = "POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Ny liste" class="knapp">
+    </form>
+
+    {%for favorittliste in mine_favoritter%}
+        <p>Listenavn: {{favorittliste.listName}}</p>
+        {%for %}
+        <p>?: {{favorittliste.annonser}}</p>
+    {% endfor %}
+        
 
     <div>
         <h3>Mine annonser</h3>
@@ -24,13 +38,10 @@
             <div class="listingContent">
                 <h2>{{listing.title}}</h2>
                 <div class="listingImg"></div>
-                <br>
-                <br>
                 <p>Sted: {{listing.location}}</p>
                 <p>Kategori : {{listing.get_category_display}}</p>
-                <br>
             </div>
-
+        </div>
         {% endfor %}
     </div>
     <br>
