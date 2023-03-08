@@ -29,7 +29,20 @@
         <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
       </div>
       <br>
-      {% if listing.loaned %}
+  
+    <div>
+      <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+        {% csrf_token %}
+        <select id='userListDD' name='userListDD'>
+          {%for liste in dropdownList%}
+          <option value="{{liste.listName}}">{{liste.listName}}</option>
+          {%endfor%}
+        </select>        
+        <button type="submit" value = "Click" name="add_to_fav_btn">Lagre i liste</button>
+      </form>
+    </div>
+
+    {% if listing.loaned %}
         <div>
           <p>Objektet er allerede utlånt</p>
         </div>
@@ -48,3 +61,4 @@
       </div>
       {% endif %}
   {% endblock content %}
+

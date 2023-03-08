@@ -68,13 +68,21 @@ def listing(request, listing_id):
     if request.POST.get('request_btn'):
         agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
         agreementRequest.save()
+    
+    dropdownList = request.user.list_owner.all()
 
-    #sjekker hvorvidt innlogget bruker har forespurt verktøyet allerede
+    if request.POST.get('add_to_fav_btn'):
+        active_user = request.user
+        chosenUserListName = request.POST.get('userListDD')
+        chosenUserList = active_user.list_owner.all().filter(listName=chosenUserListName).first()
+        chosenUserList.annonser.add(listing)
+
+
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
     print(myListing)
-    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing}
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList}
     return render(request, 'homepage/listing.html', context)
     
 
