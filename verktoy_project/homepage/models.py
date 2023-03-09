@@ -70,7 +70,7 @@ class Agreement(models.Model):
 #Klasse for å lage forespørsel om avtale mellom to brukere angående en annonse
 class AgreementRequestManager(models.Manager):
     def create_agreement_request(self, owner, loaner, listing):
-        agreementRequest =self.create(owner=owner, loaner=loaner, listing=listing, )
+        agreementRequest = self.create(owner=owner, loaner=loaner, listing=listing, )
         return agreementRequest
 
 
