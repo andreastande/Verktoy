@@ -2,8 +2,25 @@
 {% block title %} Annonse {% endblock title%}
 {% block content %}
     <div>
-        {% for listing in all_listings %}
-            {% if not listing.loaned %}
+        <div>
+            <form action="" method="GET">
+                <label>Kategori: </label>
+                <select id="qs" name="qs" style="font-size: 16px;">
+                    <option value="">--</option>
+                    <option value="1">Saging</option>
+                    <option value="2">Maling</option>
+                    <option value="3">Sveising</option>
+                    <option value="4">Kutt/Kapping</option>
+                    <option value="5">Skruverktøy</option>
+                    <option value="6">Slagverktøy</option>
+                    <option value="7">Annet</option>
+                </select>
+                  <input type="text" placeholder="Søk etter et produkt.." name="q" style="font-size: 16px;">
+                  <button class="button" type="submit">Søk</button>
+              </form>
+        </div>
+        {% if searchedListings %}
+            {% for listing in searchedListings %}
                 <div class="listingDIV">
                     <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
                     <div class="listingContent">
@@ -15,7 +32,9 @@
                         <br>
                     </div>
                 </div>
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+            {% else %}
+            <p>Ingen resultater</p>
+        {% endif %}
     </div>
 {% endblock content %}

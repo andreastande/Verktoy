@@ -1,4 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from .models import Listing
+from .forms import ListingForm
+from django.db.models import Q
 from .models import Listing, Agreement, AgreementRequest
 from .forms import ListingForm, EditListingForm
 
@@ -38,7 +41,17 @@ def listing(request, listing_id):
 
 def listing_overview(request):
     all_listings = Listing.objects.all()
-    return render(request, 'homepage/listing_overview.html', {'all_listings': all_listings})
+    q = request.GET.get('q', '')
+    qs = request.GET.get('qs', '')
+    if qs:
+        #Om kategori feltet er valgt
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs)
+    else:
+        #Om kategori feltet ikke er valgt
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
+    context={'all_listings': all_listings,
+             'searchedListings':searchedListings}
+    return render(request, 'homepage/listing_overview.html', context)
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
 def add_listing(request):
