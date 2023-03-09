@@ -26,7 +26,7 @@
     {%for favorittliste in mine_favoritter%}
         <p>Listenavn: {{favorittliste.listName}}</p>
         {% for annonse in favorittliste.annonser.all%}
-            <p>Annonse: {{annonse.title}}</p>
+            <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
         {% endfor %}
     {% endfor %}
 
