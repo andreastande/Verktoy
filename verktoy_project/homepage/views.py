@@ -78,6 +78,16 @@ def listing(request, listing_id):
         chosenUserList.annonser.add(listing)
 
 
+    
+    dropdownList = request.user.list_owner.all()
+
+    if request.POST.get('add_to_fav_btn'):
+        active_user = request.user
+        chosenUserListName = request.POST.get('userListDD')
+        chosenUserList = active_user.list_owner.all().filter(listName=chosenUserListName).first()
+        chosenUserList.annonser.add(listing)
+
+
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
