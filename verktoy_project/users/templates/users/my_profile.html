@@ -11,9 +11,15 @@
                 {{profile.bio}}
             </p>
         </div>
+        <h3>Telefonnummer</h3>
+        <div class='tlfDIV'>
+            <p>
+                {{profile.tlf}}
+            </p>
+        </div>
     </div>
 
-    <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
+    <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater</a>
     <br>
     <h3>Mine favoritter</h3>
 
