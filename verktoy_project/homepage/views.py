@@ -115,11 +115,7 @@ def edit_listing(request, listing_id):
         form = EditListingForm(request.POST, instance=queryset)
         if form.is_valid():
             form.save()
-            requested_listing = get_object_or_404(Listing, pk = listing_id)
-            current_user = request.user
-            boolean_same_user = requested_listing.owner == current_user
-            context = {'same_user': boolean_same_user, 'listing': requested_listing}
-            return render(request, 'homepage/listing.html', context)
+            listing(request, listing_id)
 
     return render(request, 'homepage/listing_edit.html', {'form':form})
 
