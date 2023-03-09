@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Listing
 from .forms import ListingForm
 from django.db.models import Q
+from .models import Listing, Agreement, AgreementRequest
+from .forms import ListingForm, EditListingForm
 
 # Create your views here.
 
@@ -17,7 +19,25 @@ def landingpage(request): #placeholder
 #Henter en spesifikk annonse, spesifisert med annonse_id
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
-    return render(request, 'homepage/listing.html', {'listing': listing})
+    agreementRequests = listing.agreement_req_listing.all()
+    notRequested = True
+
+    #Egen siden hvis det er din egen annonse
+    if listing.owner == request.user:
+        return render(request, 'homepage/my_listing.html', {'listing': listing, 'agreement_requests': agreementRequests})
+    
+
+    #Hvis man forespør avtale gjennom knappen
+    if request.POST.get('request_btn'):
+        agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
+        agreementRequest.save()
+
+    for requests in agreementRequests:
+        if requests.loaner == request.user:
+            notRequested= False
+
+    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})
+    
 
 def listing_overview(request):
     all_listings = Listing.objects.all()
@@ -47,3 +67,32 @@ def add_listing(request):
         form = ListingForm()
 
     return render(request, 'homepage/listing_create.html',{'form':form})
+
+#Henter en side for å redigere på en spesifikk annonse, spesifisert med annonseid og brukernavn
+def edit_listing(request, listing_id):
+    queryset = Listing.objects.get(id=listing_id)
+    form = EditListingForm(instance=queryset)
+    if request.method == 'POST':
+        form = EditListingForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            requested_listing = get_object_or_404(Listing, pk = listing_id)
+            current_user = request.user
+            boolean_same_user = requested_listing.owner == current_user
+            context = {'same_user': boolean_same_user, 'listing': requested_listing}
+            return render(request, 'homepage/listing.html', context)
+
+    return render(request, 'homepage/listing_edit.html', {'form':form})
+
+#Henter en side for å slette en spesifikk annonse, spesifisert med annonseid og brukernavn
+def remove_listing(request, listing_id):
+    if request.POST.get('remove_list'):
+        listing = get_object_or_404(Listing, pk = listing_id)
+        listing.delete()
+        return redirect('homepage:listing_overview')
+    agreementRequests = listing.agreement_req_listing.all()
+    notRequested = True
+    for requests in agreementRequests:
+        if requests.loaner == request.user:
+            notRequested= False
+    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})     

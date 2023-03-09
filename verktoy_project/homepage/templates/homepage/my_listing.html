@@ -1,10 +1,10 @@
 {% extends "users/base.html" %}
-{% block title %} Annonse {% endblock title%}
+{% block title %} Min {{listing.title}} {% endblock title%}
 {% block content %}
     <div>
       <p class="listing_title">{{listing.title}}</p>
       <div class="listingImg"></div>
-      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
+      <br>
       <br>
       <p>Pris: <br>
         {{listing.price}}</p>
@@ -26,15 +26,21 @@
       <p>Kategori <br>
         {{listing.get_category_display}}</p>
       <br>
+      <div>
+        {% for ag_req in agreement_requests %}
+          <p>Låneforespørsel fra <a href="{% url 'users:profile' ag_req.loaner %}">{{ag_req.loaner}}</a></p>
+        {% endfor %}
       <a href="{% url 'homepage:listing_overview' %}" class="knapp">Tilbake til oversikt</a>
+      <br>
+      <br>
+      <a href="{% url 'homepage:edit_listing' listing_id=listing.id %}" class="knapp">Rediger</a>
+      <br>
+      <br>
+      <form action="{% url 'homepage:remove_listing' listing.id %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette annonsen?')">
+        {% csrf_token %}
+        <button type="submit" value = "Click" name="remove_list">Slett annonse</button>
+      </form>
+    </div>
     </div>
     <br>
-    {% if notRequested %}
-      <div>
-        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
-          {% csrf_token %}
-          <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
-        </form>
-      </div>
-    {% endif %}
 {% endblock content %}
