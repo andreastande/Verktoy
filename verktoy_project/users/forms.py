@@ -9,7 +9,7 @@ class ProfileForm(ModelForm):
     #bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
     class Meta:
         model = Profile
-        fields = ['bio']
+        fields = ['bio', 'tlf']
 
 class MakeFavouritesListForm(ModelForm):
     class Meta:
