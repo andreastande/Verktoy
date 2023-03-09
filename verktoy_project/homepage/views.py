@@ -30,9 +30,9 @@ def declineAgreement(agreement_request):
 @login_required
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
-    agreementRequests = listing.agreement_req_listing.all()
-    notRequested = True
-    loanedBy = None
+    agreementRequests = listing.agreement_req_listing.all() #forespørsler om å låne annonsen
+    notRequested = True #hvorvidt annonsen ikke er forespurt 
+    loanedBy = None #blir satt til brukeren som evt har lånt objektet
 
 
     #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
@@ -52,11 +52,12 @@ def listing(request, listing_id):
         agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
         declineAgreement(agreement_request)
 
+    myListing = False
     #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:
+        myListing = True
         if listing.loaned:
             loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
-            print(loanedBy)
         context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests}
         return render(request, 'homepage/my_listing.html', context)
 
@@ -69,8 +70,8 @@ def listing(request, listing_id):
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
-
-    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy}
+    print(myListing)
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing}
     return render(request, 'homepage/listing.html', context)
     
 
