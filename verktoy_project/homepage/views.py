@@ -115,7 +115,7 @@ def edit_listing(request, listing_id):
         form = EditListingForm(request.POST, instance=queryset)
         if form.is_valid():
             form.save()
-            listing(request, listing_id)
+            return listing(request, listing_id)
 
     return render(request, 'homepage/listing_edit.html', {'form':form})
 
