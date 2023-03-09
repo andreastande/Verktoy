@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date
+from django.utils import timezone
 
 # Create your models here.
 
@@ -43,18 +44,25 @@ class Listing(models.Model):
 
 class AgreementManager(models.Manager):
     def create_agreement(self, owner, loaner, listing):
-        agreement =self.create(owner=owner, loaner=loaner, listing=listing, )
+        agreement =self.create(owner=owner, loaner=loaner, listing=listing, active = True)
         return agreement
+    
+    def create_agreement_from_request(self, agreement_request):
+        owner = agreement_request.owner
+        loaner = agreement_request.loaner
+        listing = agreement_request.listing
+        agreement =self.create(owner=owner, loaner=loaner, listing=listing, active = True)
+        return agreement
+
 
 #Klasse for å lage avtaler mellom to brukere angående en annonse
 class Agreement(models.Model):
     owner = models.ForeignKey(User, verbose_name = "Eier", related_name="agreement_owner", on_delete=models.CASCADE, null=False)
     loaner = models.ForeignKey(User, verbose_name = "Låner", related_name="agreement_loaner", on_delete=models.CASCADE, null=False)
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, related_name = "agreement_listing", on_delete=models.CASCADE)
 
-    start_date = models.DateField(null = True, verbose_name ="Startdato")
+    start_date = models.DateField(auto_now_add=True, verbose_name ="Startdato")
     end_date = models.DateField(null = True, verbose_name="Sluttdato")
-    pending = models.BooleanField(default=True)
     active = models.BooleanField(null=True)
 
     objects = AgreementManager()

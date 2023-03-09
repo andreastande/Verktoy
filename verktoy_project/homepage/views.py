@@ -4,6 +4,7 @@ from .forms import ListingForm
 from django.db.models import Q
 from .models import Listing, Agreement, AgreementRequest
 from .forms import ListingForm, EditListingForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -16,27 +17,65 @@ def home(request): #placeholder
 def landingpage(request): #placeholder
     return render(request, 'homepage/landingpage.html')
 
+#Oppretter en avtale, basert på på forespørselen som input
+def createAgreement(listing, agreement_request):
+        agreement = Agreement.objects.create_agreement_from_request(agreement_request)
+        agreement.save()
+        agreement_request.delete()
+        listing.loaned = True
+        listing.save()
+    
+#Sletter forespørsel om avtale
+def declineAgreement(agreement_request):
+        agreement_request.delete()
+
 #Henter en spesifikk annonse, spesifisert med annonse_id
+@login_required
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk = listing_id)
-    agreementRequests = listing.agreement_req_listing.all()
-    notRequested = True
+    agreementRequests = listing.agreement_req_listing.all() #forespørsler om å låne annonsen
+    notRequested = True #hvorvidt annonsen ikke er forespurt 
+    loanedBy = None #blir satt til brukeren som evt har lånt objektet
 
+
+    #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
+    if request.POST.get('accept_btn'):
+        ag_req_pk = request.POST.get('ag_req_pk_field')
+        agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
+        createAgreement(listing, agreement_request)
+
+        #Avslår andre forespørsler knyttet til objektet
+        for request in agreementRequests:
+            declineAgreement(agreement_request)
+
+
+    #Ved trykk av avslå-knappen til en av forespørslene på din egen annonse
+    elif request.POST.get('decline_btn'):
+        ag_req_pk = request.POST.get('ag_req_pk_field')
+        agreement_request = AgreementRequest.objects.get(pk=ag_req_pk)
+        declineAgreement(agreement_request)
+
+    myListing = False
     #Egen siden hvis det er din egen annonse
     if listing.owner == request.user:
-        return render(request, 'homepage/my_listing.html', {'listing': listing, 'agreement_requests': agreementRequests})
-    
+        myListing = True
+        if listing.loaned:
+            loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests}
+        return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
     if request.POST.get('request_btn'):
         agreementRequest = AgreementRequest.objects.create_agreement_request(listing.owner, request.user, listing)
         agreementRequest.save()
 
+    #sjekker hvorvidt innlogget bruker har forespurt verktøyet allerede
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
-
-    return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})
+    print(myListing)
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing}
+    return render(request, 'homepage/listing.html', context)
     
 
 def listing_overview(request):
