@@ -149,3 +149,13 @@ button:active, .knapp:active, .knappStor:active{
 
     display: inline-block;
 }
+.tlfDIV {
+    background-color: rgb(222, 229, 229);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px;
+    width: 175px;
+    height: auto;
+
+    display: inline-block;
+}
