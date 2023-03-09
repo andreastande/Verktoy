@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Listing
+from .models import UserDefinedList
 
 #Skjema for å opprette Listing (annonse)
 class ListingForm(ModelForm):
@@ -13,3 +14,8 @@ class EditListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = ['title', 'category', 'location', 'price', 'description']
+
+# class PrependListingToList(ModelForm):
+#     class Meta:
+#         model = UserDefinedList
+#         forms.ChoiceField

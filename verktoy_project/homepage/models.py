@@ -70,7 +70,7 @@ class Agreement(models.Model):
 #Klasse for å lage forespørsel om avtale mellom to brukere angående en annonse
 class AgreementRequestManager(models.Manager):
     def create_agreement_request(self, owner, loaner, listing):
-        agreementRequest =self.create(owner=owner, loaner=loaner, listing=listing, )
+        agreementRequest = self.create(owner=owner, loaner=loaner, listing=listing, )
         return agreementRequest
 
 
@@ -80,3 +80,8 @@ class AgreementRequest(models.Model):
     listing = models.ForeignKey(Listing, related_name = "agreement_req_listing", on_delete=models.CASCADE) 
 
     objects = AgreementRequestManager()
+
+class UserDefinedList(models.Model):
+    owner = models.ForeignKey(User, verbose_name = "Eier",  related_name="list_owner", on_delete=models.CASCADE, null=False)
+    listName = models.CharField(max_length=50, verbose_name='navn')
+    annonser = models.ManyToManyField(Listing)

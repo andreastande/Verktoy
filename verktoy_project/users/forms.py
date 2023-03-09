@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from .models import Profile
+from homepage.models import UserDefinedList
 
 #Skjema for å oppdatere profil
 class ProfileForm(ModelForm):
@@ -9,3 +10,8 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         fields = ['bio']
+
+class MakeFavouritesListForm(ModelForm):
+    class Meta:
+        model = UserDefinedList
+        fields = ['listName']

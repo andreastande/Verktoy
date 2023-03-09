@@ -15,6 +15,21 @@
 
     <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
     <br>
+    <h3>Mine favoritter</h3>
+
+    <form action="" method = "POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Ny liste" class="knapp">
+    </form>
+
+    {%for favorittliste in mine_favoritter%}
+        <p>Listenavn: {{favorittliste.listName}}</p>
+        {% for annonse in favorittliste.annonser.all%}
+            <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
+        {% endfor %}
+    {% endfor %}
+
     <br>
     <h3>Annonser</h3>
     <div>
