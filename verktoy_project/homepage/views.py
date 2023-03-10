@@ -114,7 +114,7 @@ def listing_overview(request):
 def add_listing(request):
     if request.method == 'POST':
         form = ListingForm(request.POST, request.FILES)
-        if form.is_valid:
+        if form.is_valid():
             listing = form.save(commit=False)
             listing.owner = request.user
             listing.save()
