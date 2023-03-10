@@ -130,7 +130,7 @@ def edit_listing(request, listing_id):
     queryset = Listing.objects.get(id=listing_id)
     form = EditListingForm(instance=queryset)
     if request.method == 'POST':
-        form = EditListingForm(request.POST, instance=queryset)
+        form = EditListingForm(request.POST, request.FILES, instance=queryset)
         if form.is_valid():
             form.save()
             return listing(request, listing_id)
