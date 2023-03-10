@@ -134,6 +134,12 @@ button:active, .knapp:active, .knappStor:active{
     width: 120px;
 }
 
+.listingImgBig{
+    display: inline-block;
+    height: 350px;
+    width: 350px;
+}
+
 .listingContent{
     text-align: center;
 }

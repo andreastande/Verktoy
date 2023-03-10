@@ -3,7 +3,9 @@
   {% block content %}
       <div>
         <p class="listing_title">{{listing.title}}</p>
-        <div class="listingImg"></div>
+        <div class="listingImgBig">
+          <img src="{{listing.image.url}} " width="350px" height="350px" />
+        </div>
         <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
         <br>
         <p>Pris: <br>
