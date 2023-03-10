@@ -15,28 +15,13 @@
                     <option value="6">Slagverktøy</option>
                     <option value="7">Annet</option>
                 </select>
-                  <input type="text" placeholder="Søk etter et produkt.." name="q" style="font-size: 16px;">
-                  <button class="button" type="submit">Søk</button>
+                  <i id="search-icon" class="fas fa-search"></i>
+                  <input id="user-input" type="text" placeholder="Søk etter et produkt..." name="q" style="font-size: 16px;">
               </form>
         </div>
-        {% if searchedListings %}
-            {% for listing in searchedListings %}
-                <div class="listingDIV">
-                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
-                    <div class="listingContent">
-                        <h2>{{listing.title}}</h2>
-                        <div class="listingImg">
-                            <img src="{{listing.image.url}} " width="120px" height="120px" />
-                        </div>
-                        <p>Eier:   <a href="{% url 'users:profile' listing.owner %}">  <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a> </a> </p>
-                        <p>Sted: {{listing.location}}</p>
-                        <p>Kategori : {{listing.get_category_display}}</p>
-                        <br>
-                    </div>
-                </div>
-            {% endfor %}
-            {% else %}
-            <p>Ingen resultater</p>
-        {% endif %}
+        
+        <div id="replaceable-content">
+            {% include 'listing_overview_partial.html' %}
+        </div>
     </div>
 {% endblock content %}
