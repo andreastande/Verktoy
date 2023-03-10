@@ -130,7 +130,6 @@ button:active, .knapp:active, .knappStor:active{
 
 .listingImg{
     display: inline-block;
-    background-color: brown;
     height: 120px;
     width: 120px;
 }

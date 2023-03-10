@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name="homepage"
 
@@ -12,3 +14,7 @@ urlpatterns = [
     path('listing/edit/<int:listing_id>', views.edit_listing, name='edit_listing'),
     path('listing/remove/<int:listing_id>', views.remove_listing, name='remove_listing'),
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)
