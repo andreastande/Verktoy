@@ -9,6 +9,7 @@ from django.utils import timezone
 class Listing(models.Model):
     owner = models.ForeignKey(User, verbose_name = 'User', on_delete=models.CASCADE, null=True) #user burde kanskje endres til settings.AUTH_USER_MODEL. må i så fall django.conf import settings
     title = models.CharField(max_length=50, verbose_name="Tittel")
+    image = models.ImageField(upload_to='images/', null=True)
     loaned = models.BooleanField(default=False, verbose_name="Utlånt?")
     price = models.PositiveSmallIntegerField(verbose_name='Pris', default=0)
     location = models.CharField(max_length=100, verbose_name="Sted") #burde kanskje være annet enn CharField. Gjør det vanskelig å sortere etter denne attributten

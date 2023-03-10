@@ -113,8 +113,8 @@ def listing_overview(request):
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
 def add_listing(request):
     if request.method == 'POST':
-        form = ListingForm(request.POST)
-        if form.is_valid:
+        form = ListingForm(request.POST, request.FILES)
+        if form.is_valid():
             listing = form.save(commit=False)
             listing.owner = request.user
             listing.save()
@@ -130,7 +130,7 @@ def edit_listing(request, listing_id):
     queryset = Listing.objects.get(id=listing_id)
     form = EditListingForm(instance=queryset)
     if request.method == 'POST':
-        form = EditListingForm(request.POST, instance=queryset)
+        form = EditListingForm(request.POST, request.FILES, instance=queryset)
         if form.is_valid():
             form.save()
             return listing(request, listing_id)
