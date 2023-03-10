@@ -5,6 +5,8 @@ from django.db.models import Q
 from .models import Listing, Agreement, AgreementRequest
 from .forms import ListingForm, EditListingForm
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -97,7 +99,7 @@ def listing(request, listing_id):
     
 
 def listing_overview(request):
-    all_listings = Listing.objects.all()
+    ctx = {}
     q = request.GET.get('q', '')
     qs = request.GET.get('qs', '')
     if qs:
@@ -106,9 +108,23 @@ def listing_overview(request):
     else:
         #Om kategori feltet ikke er valgt
         searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
-    context={'all_listings': all_listings,
-             'searchedListings':searchedListings}
-    return render(request, 'homepage/listing_overview.html', context)
+
+    ctx["searchedListings"] = searchedListings
+    
+    does_req_accept_json = request.accepts("application/json")
+    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+    
+    if is_ajax_request:
+        html = render_to_string(
+            template_name="listing_overview_partial.html", 
+            context={'searchedListings':searchedListings}
+        )
+
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+    
+    return render(request, 'homepage/listing_overview.html', context=ctx)
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
 def add_listing(request):
