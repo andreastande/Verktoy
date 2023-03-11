@@ -102,9 +102,19 @@ def listing_overview(request):
     ctx = {}
     q = request.GET.get('q', '')
     qs = request.GET.get('qs', '')
-    if qs:
-        #Om kategori feltet er valgt
-        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs)
+    min_price = request.GET.get('min_price', '')
+    max_price = request.GET.get('max_price', '')
+    if min_price == '':
+        min_price = 0
+    if qs and not max_price:
+        #Om kategori feltet er valgt og minimum pris skrevet
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999))
+    elif qs and max_price:
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price))
+    elif not qs and not max_price:
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999))
+    elif not qs and max_price:
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price))
     else:
         #Om kategori feltet ikke er valgt
         searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
