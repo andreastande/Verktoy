@@ -100,14 +100,14 @@ def listing(request, listing_id):
 
 def listing_overview(request):
     ctx = {}
-    search = request.GET.get('search', '')
-    category = request.GET.get('category', '')
-    if category:
+    q = request.GET.get('q', '')
+    qs = request.GET.get('qs', '')
+    if qs:
         #Om kategori feltet er valgt
-        searchedListings = Listing.objects.filter(Q(title__icontains=search) | Q(location__icontains=search), category = category)
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs)
     else:
         #Om kategori feltet ikke er valgt
-        searchedListings = Listing.objects.filter(Q(title__icontains=search) | Q(location__icontains=search))
+        searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
 
     ctx["searchedListings"] = searchedListings
     
