@@ -14,6 +14,7 @@ class Listing(models.Model):
     price = models.PositiveSmallIntegerField(verbose_name='Pris', default=0)
     location = models.CharField(max_length=100, verbose_name="Sted") #burde kanskje være annet enn CharField. Gjør det vanskelig å sortere etter denne attributten
     description = models.TextField(verbose_name="Beskrivelse")
+    wantToLoan = models.BooleanField(default=False, verbose_name="Ønskes lånt?")
 
     #For under, se https://docs.djangoproject.com/en/2.2/ref/models/fields/#choices.
     #Heltall for raskere sortering.

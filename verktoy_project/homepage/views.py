@@ -146,16 +146,16 @@ def listing_overview(request, loan):
             min_price = 0
         if qs and not max_price:
             #Om kategori feltet er valgt og minimum pris skrevet
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999), wantToLoan=True)
         elif qs and max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price), wantToLoan=True)
         elif not qs and not max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999), wantToLoan=True)
         elif not qs and max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price), wantToLoan=True)
         else:
             #Om kategori feltet ikke er valgt
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), wantToLoan=True)
 
         ctx["searchedListings"] = searchedListings
         
