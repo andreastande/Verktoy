@@ -127,7 +127,7 @@ def listing_overview(request, loan):
         
         if is_ajax_request:
             html = render_to_string(
-                template_name="listing_overview_partial.html", 
+                template_name="listing_overview_loan_partial.html", 
                 context={'searchedListings':searchedListings}
             )
 
@@ -135,9 +135,44 @@ def listing_overview(request, loan):
 
             return JsonResponse(data=data_dict, safe=False)
         
-        return render(request, 'homepage/listing_overview.html', context=ctx)
-    else:
-        return render(request, 'homepage/listing_overview.html')
+        return render(request, 'homepage/listing_overview_loan.html', context=ctx)
+    elif loan=="lånbort":
+        ctx = {}
+        q = request.GET.get('q', '')
+        qs = request.GET.get('qs', '')
+        min_price = request.GET.get('min_price', '')
+        max_price = request.GET.get('max_price', '')
+        if min_price == '':
+            min_price = 0
+        if qs and not max_price:
+            #Om kategori feltet er valgt og minimum pris skrevet
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999))
+        elif qs and max_price:
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price))
+        elif not qs and not max_price:
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999))
+        elif not qs and max_price:
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price))
+        else:
+            #Om kategori feltet ikke er valgt
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
+
+        ctx["searchedListings"] = searchedListings
+        
+        does_req_accept_json = request.accepts("application/json")
+        is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+        
+        if is_ajax_request:
+            html = render_to_string(
+                template_name="listing_overview_loan_to_partial.html", 
+                context={'searchedListings':searchedListings}
+            )
+
+            data_dict = {"html_from_view": html}
+
+            return JsonResponse(data=data_dict, safe=False)
+        
+        return render(request, 'homepage/listing_overview_loan_to.html', context=ctx)
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
 def add_listing(request):
