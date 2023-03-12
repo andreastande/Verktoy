@@ -13,12 +13,12 @@
   </head>
   <header> <div class="topbar">
     <div class="topbarBoxImg"> 
-      <a href="{% url 'homepage:listing_overview' %}" class="Logo">
+      <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="Logo">
         <img src="{% static 'img/logo.png' %}" alt="En nydelig logo" class="logoIMG">
       </a>
     </div>
     <div class="topbarBox">
-        <a href="{% url 'homepage:listing_overview' %}" class="knapp">Annonser</a>
+        <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="knapp">Annonser</a>
         {% if user.is_authenticated %}
         <a href="{% url 'homepage:add_listing' %}" class="knapp">Opprett Annonse</a>
         <a href="{% url 'users:my_profile' %}" class="knapp">Min Profil</a>
