@@ -109,16 +109,16 @@ def listing_overview(request, loan):
             min_price = 0
         if qs and not max_price:
             #Om kategori feltet er valgt og minimum pris skrevet
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, 9999), wantToLoan=False)
         elif qs and max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), category=qs, price__range=(min_price, max_price), wantToLoan=False)
         elif not qs and not max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, 9999), wantToLoan=False)
         elif not qs and max_price:
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), price__range=(min_price, max_price), wantToLoan=False)
         else:
             #Om kategori feltet ikke er valgt
-            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q))
+            searchedListings = Listing.objects.filter(Q(title__icontains=q) | Q(location__icontains=q), wantToLoan=False)
 
         ctx["searchedListings"] = searchedListings
         
@@ -175,19 +175,34 @@ def listing_overview(request, loan):
         return render(request, 'homepage/listing_overview_loan_to.html', context=ctx)
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
-def add_listing(request):
-    if request.method == 'POST':
-        form = ListingForm(request.POST, request.FILES)
-        if form.is_valid():
-            listing = form.save(commit=False)
-            listing.owner = request.user
-            listing.save()
-            #return render(request, '')
-            return redirect('homepage:listing_overview')
-    else:
-        form = ListingForm()
+def add_listing(request, loan):
+    if loan=="utlån":
+        if request.method == 'POST':
+            form = ListingForm(request.POST, request.FILES)
+            if form.is_valid():
+                listing = form.save(commit=False)
+                listing.owner = request.user
+                listing.save()
+                #return render(request, '')
+                return listing_overview(request, "utlånt")
+        else:
+            form = ListingForm()
 
-    return render(request, 'homepage/listing_create.html',{'form':form})
+        return render(request, 'homepage/listing_create.html', {'form':form})
+    elif loan=="lånbort":
+        if request.method == 'POST':
+            form = ListingForm(request.POST, request.FILES)
+            if form.is_valid():
+                listing = form.save(commit=False)
+                listing.owner = request.user
+                listing.wantToLoan = True
+                listing.save()
+                #return render(request, '')
+                return listing_overview(request, "lånbort")
+        else:
+            form = ListingForm()
+
+        return render(request, 'homepage/listing_create.html',{'form':form})
 
 #Henter en side for å redigere på en spesifikk annonse, spesifisert med annonseid og brukernavn
 def edit_listing(request, listing_id):

@@ -99,6 +99,23 @@ button:active, .knapp:active, .knappStor:active{
     color: black;
 }
 
+.knappAnnonse {
+    background-color: rgb(180, 229, 242);
+    padding: 10px;
+    text-decoration: none;
+    box-shadow: 2px;
+    font-family: "Times New Roman", Times, serif;
+    color: black;
+    border: none;
+    border-radius: 2px;
+    font-size: 25px; 
+    margin: 10px;
+    position:relative;
+    left:140px;
+    display:inline-block;
+    margin-top: 225px;
+}
+
 .landingpage {
     background-image: radial-gradient(rgba(255, 255, 255, 0),rgba(0, 0, 0, 0.705));
     height: 100vh;
