@@ -31,17 +31,17 @@
             <br>
             <a href="{% url 'homepage:add_listing' 'utlån' %}" style = "position:fixed;" class="knappAnnonse">Opprett Annonse</a>
         </div>
+        <div class="column middle">
+            <br>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="bigButton">Utlån</a>
+                <a href="{% url 'homepage:listing_overview' 'lånbort' %}" class="bigButton">Lån bort til andre</a>
+            </form>
+            <p></p>
+        </div>
         
         <div id="replaceable-content" class="column middle">
-            <br>
-            <div>
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="bigButton">Utlån</a>
-                    <a href="{% url 'homepage:listing_overview' 'lånbort' %}" class="bigButton">Lån bort til andre</a>
-                </form>
-            </div>
-            <p></p>
             {% include 'listing_overview_loan_partial.html' %}
         </div>
         </div class="column right"></div>
