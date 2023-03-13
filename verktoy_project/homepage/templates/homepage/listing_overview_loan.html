@@ -1,0 +1,52 @@
+{% extends "users/base.html" %}
+{% block title %} Annonse {% endblock title%}
+{% block content %}
+    <div class="row">
+        <div class="column left" style="position:relative; left:100px">
+            <div class="filtersquare" style = "position:fixed;">
+                <h1>Filter</h1>
+                <form action="" method="GET">
+                    <br>
+                    <label>Kategori: </label>
+                    <select id="category-choice" name="qs" style="font-size: 16px;">
+                        <option value="">--</option>
+                        <option value="1">Saging</option>
+                        <option value="2">Maling</option>
+                        <option value="3">Sveising</option>
+                        <option value="4">Kutt/Kapping</option>
+                        <option value="5">Skruverktøy</option>
+                        <option value="6">Slagverktøy</option>
+                        <option value="7">Annet</option>
+                    </select>
+                    <p></p>
+                    <label>Pris: </label>
+                    <input type="text" id="min-price" min="0" name="min_price" maxlength="4" size="3" >
+                    til <input type="text" id="max-price" name="max_price" maxlength="4" size="3"> 
+                </form>
+            </div>
+            <br>
+            <br>
+            <a href="{% url 'homepage:add_listing' 'utlån' %}" style = "position:fixed;" class="knappAnnonse">Opprett Utlån</a>
+        </div>
+        <div class="column middle">
+            <br>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="bigButton">Utlån</a>
+                <a href="{% url 'homepage:listing_overview' 'lånbort' %}" class="bigButton">Lån bort til andre</a>
+            </form>
+            <br>
+            <br>
+            <form action="" method="GET">
+                <i id="search-icon" class="fas fa-search"></i>
+                <input id="user-input" type="text" placeholder="Søk etter et produkt..." name="q" style="font-size: 16px;">
+            </form>
+            <br>
+            <br>
+        </div>
+        
+        <div id="replaceable-content" class="column middle">
+            {% include 'listing_overview_loan_partial.html' %}
+        </div>
+        </div class="column right"></div>
+{% endblock content %}

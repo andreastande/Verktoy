@@ -10,7 +10,9 @@ urlpatterns = [
     path('landingpage/', views.landingpage, name='landingpage'),
     path('listing/<int:listing_id>', views.listing, name='listing'),
     path('listing/add/', views.add_listing, name='add_listing'),
-    path('listing/overview', views.listing_overview, name='listing_overview'),
+    path('listing/add/<str:loan>', views.add_listing, name='add_listing'),
+    path('listing/overview/<str:loan>', views.listing_overview, name='listing_overview'),
+    path('listing/overview/', views.listing_overview, name='listing_overview'),
     path('listing/edit/<int:listing_id>', views.edit_listing, name='edit_listing'),
     path('listing/remove/<int:listing_id>', views.remove_listing, name='remove_listing'),
 ]

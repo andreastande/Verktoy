@@ -25,7 +25,9 @@
                 <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
                 <div class="listingContent">
                     <h2>{{listing.title}}</h2>
-                    <div class="listingImg"></div>
+                    <div class="listingImg">
+                        <img src="{{listing.image.url}} " width="120px" height="120px" />
+                    </div>
                     <p>Eier: {{listing.owner}}</p>
                     <p>Sted: {{listing.location}}</p>
                     <p>Kategori : {{listing.get_category_display}}</p>
