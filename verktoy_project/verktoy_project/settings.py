@@ -128,4 +128,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/homepage/listing/overview/utlån"
 LOGOUT_REDIRECT_URL = "/homepage/landingpage"
-LOGIN_URL = "/users/login"
+LOGIN_URL = "/users/login/"
