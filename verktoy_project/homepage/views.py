@@ -167,7 +167,6 @@ def listing_overview(request, loan):
                 template_name="listing_overview_loan_to_partial.html", 
                 context={'searchedListings':searchedListings}
             )
-            print(html)
 
             data_dict = {"html_from_view": html}
 
