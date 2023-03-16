@@ -184,7 +184,7 @@ def add_listing(request, loan):
                 listing.owner = request.user
                 listing.save()
                 #return render(request, '')
-                return listing_overview(request, "utlånt")
+                return listing_overview(request, "utlån")
         else:
             form = ListingForm()
 
