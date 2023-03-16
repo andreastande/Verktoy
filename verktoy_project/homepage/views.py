@@ -175,6 +175,7 @@ def listing_overview(request, loan):
         return render(request, 'homepage/listing_overview_loan_to.html', context=ctx)
 
 #Henter side for å opprette ny annonse. Bruker ListingForm definert i forms.py
+@login_required
 def add_listing(request, loan):
     if loan=="utlån":
         if request.method == 'POST':
