@@ -185,7 +185,7 @@ def add_listing(request, loan):
                 listing.owner = request.user
                 listing.save()
                 #return render(request, '')
-                return listing_overview(request, "utlån")
+                return redirect('homepage:listing_overview', 'utlån')
         else:
             form = ListingForm()
 
@@ -199,7 +199,7 @@ def add_listing(request, loan):
                 listing.wantToLoan = True
                 listing.save()
                 #return render(request, '')
-                return listing_overview(request, "lånbort")
+                return redirect('homepage:listing_overview', 'lånbort')
         else:
             form = ListingForm()
 
@@ -222,7 +222,7 @@ def remove_listing(request, listing_id):
     if request.POST.get('remove_list'):
         listing = get_object_or_404(Listing, pk = listing_id)
         listing.delete()
-        return redirect('homepage:listing_overview')
+        return redirect('homepage:listing_overview', 'utlån')
     agreementRequests = listing.agreement_req_listing.all()
     notRequested = True
     for requests in agreementRequests:
