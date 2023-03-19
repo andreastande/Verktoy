@@ -69,7 +69,7 @@
     <br>
 </div>
 <div>
-<form action="{% url 'users:removeUser' %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette kontoen?')">
+<form action="{% url 'users:removeUser' user.username %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette kontoen?')">
         {% csrf_token %}
         <button type="submit" value = "Click" name="remove_user">Slett konto</button>
       </form>
