@@ -94,3 +94,10 @@ def update_profile(request):
     context = {'profile_form': profile_form}
     return render(request, 'users/update_profile.html', context)
 
+def removeUser(request):
+    active_user = request.user 
+    user_listings = Listing.objects.filte(owner = active_user)
+    for listings in user_listings:
+        listings.delete()
+    active_user.delete()
+    return Listing(request)
