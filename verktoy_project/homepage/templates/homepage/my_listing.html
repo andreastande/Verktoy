@@ -58,4 +58,14 @@
     </div>
     </div>
     <br>
+    <div>
+      <h5>Anmeldelser</h5>
+      {% for r in reviews %}
+      <p>Tittel: {{r.title}}</p>
+      <p>Stjerner: {{r.rating}}</p>
+      <p>Anmeldelse: {{r.review}}</p>
+      <br>
+      <br>
+      {% endfor %}
+    </div>
 {% endblock content %}
