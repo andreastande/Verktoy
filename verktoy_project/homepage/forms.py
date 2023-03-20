@@ -1,7 +1,8 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Listing
+from .models import Listing, Review
 from .models import UserDefinedList
+
 
 #Skjema for å opprette Listing (annonse)
 class ListingForm(ModelForm):
@@ -19,3 +20,8 @@ class EditListingForm(ModelForm):
 #     class Meta:
 #         model = UserDefinedList
 #         forms.ChoiceField
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['title', 'review', 'rating']

@@ -87,3 +87,10 @@ class UserDefinedList(models.Model):
     owner = models.ForeignKey(User, verbose_name = "Eier",  related_name="list_owner", on_delete=models.CASCADE, null=False)
     listName = models.CharField(max_length=50, verbose_name='navn')
     annonser = models.ManyToManyField(Listing)
+
+class Review(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50, blank = True)
+    review = models.TextField(max_length = 1000, blank = True)
+    rating = models.FloatField()
