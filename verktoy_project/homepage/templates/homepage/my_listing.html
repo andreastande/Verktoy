@@ -60,6 +60,10 @@
     <br>
     <div>
       <h5>Anmeldelser</h5>
+      {% if averageReviewScore != 0 %}
+      <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+      <br>
+      {% endif %}
       {% for r in reviews %}
       <p>Tittel: {{r.title}}</p>
       <p>Stjerner: {{r.rating}}</p>

@@ -40,10 +40,15 @@ def listing(request, listing_id):
     loanedBy = None #blir satt til brukeren som evt har lånt objektet
     reviews = listing.review_set.all()
     alreadyReviewed = False
+    totalReviewScore = 0 
+    averageReviewScore = 0
 
     for review in reviews:
+        totalReviewScore += review.rating
         if review.user == request.user:
             alreadyReviewed = True
+    if (reviews.count() != 0):
+        averageReviewScore = totalReviewScore / reviews.count()
 
     #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
     if request.POST.get('accept_btn'):
@@ -68,7 +73,7 @@ def listing(request, listing_id):
         myListing = True
         if listing.loaned:
             loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
-        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews}
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews, 'averageReviewScore':averageReviewScore}
         return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
@@ -97,8 +102,7 @@ def listing(request, listing_id):
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
-    print(myListing)
-    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList, 'reviews':reviews, 'alreadyReviewed':alreadyReviewed}
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList, 'reviews':reviews, 'alreadyReviewed':alreadyReviewed, 'averageReviewScore':averageReviewScore}
     return render(request, 'homepage/listing.html', context)
 
 def submit_review(request, listing_id):
