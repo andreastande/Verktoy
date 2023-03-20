@@ -2,8 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Listing
 from .forms import ListingForm
 from django.db.models import Q
-from .models import Listing, Agreement, AgreementRequest
-from .forms import ListingForm, EditListingForm
+from .models import Listing, Agreement, AgreementRequest, Review
+from .forms import ListingForm, EditListingForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -96,7 +96,25 @@ def listing(request, listing_id):
     print(myListing)
     context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList}
     return render(request, 'homepage/listing.html', context)
-    
+
+def submit_review(request, listing_id):
+    if request.method == "POST":
+        try:
+            listings= Review.objects.get(user__id = request.user.id, listing__id = listing_id)
+            form = ReviewForm(request.POST, instance=listings) 
+            form.save()
+        except Review.DoesNotExist:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                listing = get_object_or_404(Listing, pk = listing_id)
+                data = Review()
+                data.title =form.cleaned_data['subject'] 
+                data.rating =form.cleaned_data['rating'] 
+                data.review =form.cleaned_data['review'] 
+                data.listing = listing
+                data.user = request.user
+                data.save()
+        return listing(request, listing_id)
 
 def listing_overview(request, loan):
     if loan=="utlån":
