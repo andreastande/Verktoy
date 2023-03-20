@@ -66,7 +66,7 @@
       {% endif %}
 
       <div>
-        <form action=" {{% url 'submit_review' listing.id %}} " method="POST">
+        <form action=" {% url 'homepage:submit_review' listing.id %} " method="POST">
           {% csrf_token %}
           <h5>Skriv anmeldelse</h5>
           <div>
