@@ -23,5 +23,5 @@ class EditListingForm(ModelForm):
 
 class ReviewForm(ModelForm):
     class Meta:
-        Model = Review
+        model = Review
         fields = ['title', 'review', 'rating']

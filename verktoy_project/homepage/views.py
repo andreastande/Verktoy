@@ -38,7 +38,12 @@ def listing(request, listing_id):
     agreementRequests = listing.agreement_req_listing.all() #forespørsler om å låne annonsen
     notRequested = True #hvorvidt annonsen ikke er forespurt 
     loanedBy = None #blir satt til brukeren som evt har lånt objektet
+    reviews = listing.review_set.all()
+    alreadyReviewed = False
 
+    for review in reviews:
+        if review.user == request.user:
+            alreadyReviewed = True
 
     #Ved trykk av aksepter-knappen til en av forespørslene på din egen annonse
     if request.POST.get('accept_btn'):
@@ -63,7 +68,7 @@ def listing(request, listing_id):
         myListing = True
         if listing.loaned:
             loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
-        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests}
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews}
         return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
@@ -89,12 +94,11 @@ def listing(request, listing_id):
         chosenUserList = active_user.list_owner.all().filter(listName=chosenUserListName).first()
         chosenUserList.annonser.add(listing)
 
-
     for requests in agreementRequests:
         if requests.loaner == request.user:
             notRequested= False
     print(myListing)
-    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList}
+    context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'myListing':myListing, 'dropdownList':dropdownList, 'reviews':reviews, 'alreadyReviewed':alreadyReviewed}
     return render(request, 'homepage/listing.html', context)
 
 def submit_review(request, listing_id):
@@ -106,12 +110,12 @@ def submit_review(request, listing_id):
         except Review.DoesNotExist:
             form = ReviewForm(request.POST)
             if form.is_valid():
-                listing = get_object_or_404(Listing, pk = listing_id)
+                listinga = get_object_or_404(Listing, pk = listing_id)
                 data = Review()
-                data.title =form.cleaned_data['subject'] 
+                data.title =form.cleaned_data['title'] 
                 data.rating =form.cleaned_data['rating'] 
                 data.review =form.cleaned_data['review'] 
-                data.listing = listing
+                data.listing = listinga
                 data.user = request.user
                 data.save()
         return listing(request, listing_id)
