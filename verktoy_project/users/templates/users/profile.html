@@ -1,4 +1,5 @@
 {% extends "users/base.html" %}
+{% load ratings %}
 {% block title %} {{user.username}}s profil {% endblock title%}
 {% block content %}
     <div>
@@ -14,7 +15,10 @@
             <p>
                 {{profile.tlf}}
             </p>
-            </div>
+            <br>
+            {% ratings user %}
+            <br>
+        </div>
 
         <br>
 

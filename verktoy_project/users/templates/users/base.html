@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{% static 'stylish.css'%}?{% now "U" %}">
     <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
     <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
     <!-- Navn på siden -->
     <title>
       {% block title %}{% endblock %}
@@ -49,3 +53,4 @@
     {% endblock %} 
   </body>
 </html>
+
