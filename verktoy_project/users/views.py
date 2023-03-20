@@ -10,6 +10,7 @@ from django.views import generic
 from homepage.models import Listing, Agreement
 from homepage.models import UserDefinedList
 from .forms import MakeFavouritesListForm
+from users.models import Profile
 
 # Create your views here.
 
@@ -94,3 +95,13 @@ def update_profile(request):
     context = {'profile_form': profile_form}
     return render(request, 'users/update_profile.html', context)
 
+ 
+#Sletter konto fra databasen
+def removeUser(request, userstring):
+    current_user = get_object_or_404(User, username = userstring)
+    user_listings = Listing.objects.filter(owner = current_user)
+    for listings in user_listings:
+        listings.delete()
+    current_user.delete()
+    return redirect('homepage:listing_overview', 'utlån')
+    
