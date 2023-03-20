@@ -25,6 +25,7 @@ urlpatterns = [
     path('users/', include('users.urls')), #users app url'er
     path('homepage/', include('homepage.urls')), #homepage app url'er
     path('', lambda req: redirect('homepage/landingpage')), #sender til landingpage ved "tom" url
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
 
 if settings.DEBUG:
