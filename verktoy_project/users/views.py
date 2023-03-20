@@ -98,12 +98,10 @@ def update_profile(request):
  
 #Sletter konto fra databasen
 def removeUser(request, userstring):
-    if request.method == 'POST' and request.POST.get('removeUser'):
-        active_user = get_object_or_404(User, username = userstring)
-        user_listings = Listing.objects.filte(owner = active_user)
-        for listings in user_listings:
-            listings.delete()
-        active_user.delete()
-        return redirect('homepage/base.html')
+    current_user = get_object_or_404(User, username = userstring)
+    user_listings = Listing.objects.filter(owner = current_user)
+    for listings in user_listings:
+        listings.delete()
+    current_user.delete()
+    return redirect('homepage:listing_overview', 'utlån')
     
-    return render(request, 'homepage/my_profile.html')
