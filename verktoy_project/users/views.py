@@ -38,8 +38,9 @@ def signup(request):
 @login_required
 def my_profile(request):
     current_user = request.user
-    user_listings = current_user.listing_set.all()
     user_profile = current_user.profile
+    
+    user_listings = current_user.listing_set.all()
     listings = []
 
     if request.POST.get('loaned_out'):

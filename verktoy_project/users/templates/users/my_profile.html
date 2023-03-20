@@ -10,11 +10,12 @@
     <form action="{% url 'users:my_profile' %}" method="POST">
         {% csrf_token %}
         <button type="submit" value = "Click" name="___________" class="yellowNavKnapp">Innstillinger</button>
-        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Mine annonser</button>
-
-        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Mine annonser</button>
+        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Aktive annonser</button>
         <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnapp">Utlånt</button>
+        <br>
         <button type="submit" value = "Click" name="my_loans" class="yellowNavKnapp">Mine lån</button>
+        <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - utlån</button>
+        <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - lån</button>
     </form>
 </div>
 {% endblock %}
