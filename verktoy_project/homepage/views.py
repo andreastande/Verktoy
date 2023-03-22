@@ -75,7 +75,7 @@ def listing(request, listing_id):
         if listing.loaned:
             #loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
             loanedBy = listing.agreement_listing.filter(owner=listing.owner).first().loaner
-            context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews, 'averageReviewScore':averageReviewScore}
+        context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews, 'averageReviewScore':averageReviewScore}
         return render(request, 'homepage/my_listing.html', context)
 
     #Hvis man forespør avtale gjennom knappen
