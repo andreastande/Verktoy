@@ -5,48 +5,96 @@
     <h1>Velkommen,</h1>
     <h1>{{user.username}}</h1>
 </div>
-{% comment "TODO få rett content til å vises ved å trykke på knapper" %}{% endcomment %}
 <div class="yellowNavBox">
     <form action="{% url 'users:my_profile' %}" method="POST">
         {% csrf_token %}
-        <button type="submit" value = "Click" name="update_profile" class="yellowNavKnapp">Innstillinger</button>
+        {% if activePage == 'MyListings' %}
+        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnappSelected">Aktive annonser</button>
+        {% else %}
         <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Aktive annonser</button>
+        {% endif %}
+        {% if activePage == 'LoanedOut' %}
+        <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnappSelected">Utlånt</button>
+        {% else %}
         <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnapp">Utlånt</button>
-        <br>
+        {% endif %}
+        {% if activePage == 'MyLoans' %}
+        <button type="submit" value = "Click" name="my_loans" class="yellowNavKnappSelected">Mine lån</button>
+        {% else %}
         <button type="submit" value = "Click" name="my_loans" class="yellowNavKnapp">Mine lån</button>
+        {% endif %}
+        {% if activePage == 'MyFavourites' %}
+        <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnappSelected">Lagrede annonser</button>
+        {% else %}
         <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnapp">Lagrede annonser</button>
+        {% endif %}
+        {% if activePage == '____' %}
+        <button type="submit" value = "Click" name="___" class="yellowNavKnappSelected">Historikk - utlån</button>
+        {% else %}
         <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - utlån</button>
+        {% endif %}
+        {% if activePage == '___' %}
+        <button type="submit" value = "Click" name="___" class="yellowNavKnappSelected">Historikk - lån</button>
+        {% else %}
         <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - lån</button>
+        {% endif %}
+        {% if activePage == 'Settings' %}
+            <button type="submit" value = "Click" name="update_profile" class="yellowNavKnappSelected">Innstillinger</button>
+        {% else %}
+            <button type="submit" value = "Click" name="update_profile" class="yellowNavKnapp">Innstillinger</button>
+        {% endif %}
     </form>
+</div>
+<div class="yellowNavBox">
+    <h3>Telefonnummer:  </h3>
+    <p>{{profile.tlf}}</p>
+    <h3>Biografi</h3>
+        <p>
+            {{profile.bio}}
+        </p>
 </div>
 {% endblock %}
 
 {% block contentboxMid %}
+    <h2>{{heading}}</h2>
     {%if settings == True%}
         <div>
-            <div>
-                <h3>Biografi</h3>
-                <div class='bioDIV'>
-                    <p>
-                        {{profile.bio}}
-                    </p>
-                </div>
-            </div>
-    
-            <h3>Telefonnummer</h3>
-            <div class='tlfDIV'>
-                <p>
-                    {{profile.tlf}}
-                </p>
-            </div>
-    
-            <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
+            <form action="{% url 'users:my_profile' %}" method = "post">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <button type="submit" value = "Click" name="Oppdater" class="knapp">Oppdater Profil</button>
+            </form>
             <br>
-  
         </div>
+    {% elif favourites == True%}
+
+        <form action="{% url 'users:my_profile' %}" method = "POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" value = "Click" name="Ny_Liste" class="knapp">Ny liste</button>
+        </form>
+
+        {%for favorittliste in mine_favoritter%}
+            <p>Listenavn: {{favorittliste.listName}}</p>
+            {% for listing in favorittliste.annonser.all%}
+                <div class="listingDIV">
+                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                    <div class="listingContent">
+                        <h2>{{listing.title}}</h2>
+                        <div class="listingImg"></div>
+                        <p>Sted: {{listing.location}}</p>
+                        <p>Kategori : {{listing.get_category_display}}</p>
+                        {% if listing.agreement_req_listing.all %}
+                            <p>Forespurt</p>
+                        {% else %}
+                            <br>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
     {% else %}
         <div>
-            <h3>Annonser</h3>
             <div>
                 {% for listing in listings %}
                     <div class="listingDIV">
@@ -58,6 +106,8 @@
                             <p>Kategori : {{listing.get_category_display}}</p>
                             {% if listing.agreement_req_listing.all %}
                                 <p>Forespurt</p>
+                            {% else %}
+                            <br>
                             {% endif %}
                         </div>
                     </div>
@@ -65,20 +115,6 @@
             </div>
             <br>
 
-            <h3>Mine favoritter</h3>
-
-            <form action="" method = "POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Ny liste" class="knapp">
-            </form>
-
-            {%for favorittliste in mine_favoritter%}
-                <p>Listenavn: {{favorittliste.listName}}</p>
-                {% for annonse in favorittliste.annonser.all%}
-                    <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
-                {% endfor %}
-            {% endfor %}
         </div>
     {% endif %}
 {% endblock%}

@@ -39,37 +39,57 @@ def signup(request):
 def my_profile(request):
     current_user = request.user
     user_profile = current_user.profile
-    
+    activePage = "Settings"
     user_listings = current_user.listing_set.all()
-    showSettings = True
+    showSettings = False
     showFavourites = True
-    if request.POST.get('my_listings') or request.POST.get('loaned_out') or request.POST.get('my_loans'):
+    heading = 'Mine aktive Annonser'
+    if(request.POST.get('update_profile') or request.POST.get('Oppdater')): #Settings
+        heading = 'Rediger profil'
+        showFavourites = False
+        showSettings = True
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profilen din ble oppdatert')
+            return redirect('users:my_profile')
+        else:
+            profile_form = ProfileForm(instance=request.user.profile)
+
+        #Returner ting som er relevant for settings
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'activePage':activePage,'profile_form': profile_form,'heading':heading}
+        return render(request, 'users/my_profile.html', context)
+        #update profile
+    elif request.POST.get('loaned_out') or request.POST.get('my_loans'):
         #Vise brukers annonser
         listings = []
         if request.POST.get('loaned_out'):
+            heading = 'Utlånte annnoser'
+            activePage = "LoanedOut"
             for listing in user_listings:
                 if listing.loaned:
                     listings.append(listing)
         
-        elif request.POST.get('my_loans'):
+        else:
+            heading = 'Mine Lån'
+            activePage = "MyLoans"
             agreements= Agreement.objects.filter(loaner=request.user)
             for agreement in agreements:
                 listings.append(agreement.listing)
             #listings = agreements.objects.agreement_listing.all()
-        else:
-            for listing in user_listings:
-                if not listing.loaned:
-                    listings.append(listing)
-        
+
         showSettings = False
         showFavourites = False
         allListings = Listing.objects.all()   
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings}
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings, 'activePage':activePage,'heading':heading}
         return render(request, 'users/my_profile.html', context)
     
-    elif request.POST.get('my_favourites'):
+    
+    elif (request.POST.get('my_favourites') or request.POST.get('Ny_Liste') ):
+        heading = 'Mine Favoritter'
+        activePage = "MyFavourites"
         showSettings = False
-        listings = current_user.list_owner.all()
+        mine_favoritter = current_user.list_owner.all()
         form = MakeFavouritesListForm(request.POST)
         if form.is_valid():
             newList = form.save(commit=False)
@@ -79,21 +99,26 @@ def my_profile(request):
             form = MakeFavouritesListForm()
         
         allListings = Listing.objects.all()
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'form':form, 'allListings': allListings}
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'form':form, 'allListings': allListings,'mine_favoritter':mine_favoritter, 'activePage':activePage,'heading':heading}
         return render(request, 'users/my_profile.html', context)
     #elif request.POST.get('historikk'): ...
+    else: #Default: vise aktive listings
+        listings = []
+        activePage = "MyListings"
+        for listing in user_listings:
+            if not listing.loaned:
+                listings.append(listing)
         
-    else:
+        showSettings = False
         showFavourites = False
-        #Returner ting som er relevant for settings
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile}
+        allListings = Listing.objects.all()   
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings, 'activePage':activePage,'heading':heading}
         return render(request, 'users/my_profile.html', context)
-        #update profile
     
-    allListings = Listing.objects.all()
+    # allListings = Listing.objects.all()
     
-    context = {'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
-    return render(request, 'users/my_profile.html', context)
+    # context = {'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
+    # return render(request, 'users/my_profile.html', context)
 
 @login_required
 def profile(request, userstring):

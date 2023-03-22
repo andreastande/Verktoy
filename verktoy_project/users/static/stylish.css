@@ -127,6 +127,7 @@ button:active, .knapp:active, .knappStor:active{
 .listingDIV{
     background-color: rgba(218, 218, 218, 0.737);
     box-shadow: 1px 3px 5px rgba(63, 63, 63, 0.813);
+    color: black;
     padding: 20px;
     margin: 20px;
     border-radius: 5px;
@@ -195,25 +196,38 @@ button:active, .knapp:active, .knappStor:active{
     padding: 10px;
     margin-left: 20px;
     margin-top: 20px;
+    margin-bottom: 10px;
     width: 15vw;
     text-align: left;
 }
 
 .yellowNavKnapp {
     background-color: transparent;
+    text-align: left;
     color: white;
+    width: 12vw;
+    font-weight: bolder;
+}
+.yellowNavKnappSelected {
+    background-color: rgba(255, 210, 131, 0.584);
+    text-align: left;
+    color: white;
+    width: 12vw;
     font-weight: bolder;
 }
 
-.yellowNavKnapp:hover {
+.yellowNavKnapp:hover, .yellowNavKnappSelected:hover {
     background-color: rgb(255, 185, 63);
 }
 
 .contentboxMid{
     background-color: rgb(230,176,80);
     margin-top: 180px;
+    margin-bottom: 20px;
     width: 70%;
     text-align: center;
     display: inline-block;
     padding-top: 10px;
+    color: white;
 }
+
