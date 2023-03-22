@@ -1,4 +1,5 @@
 {% extends "users/profileBase.html" %}
+{% load ratings %}
 {% block title %} Min profil {% endblock title%}
 {%block contentL%}
 <div class="yellowHeadingBox"> 
@@ -48,6 +49,8 @@
 <div class="yellowNavBox">
     <h3>Telefonnummer:  </h3>
     <p>{{profile.tlf}}</p>
+    <h3>Din vurdering</h3>
+    {% ratings user read_only='True' %}
     <h3>Biografi</h3>
         <p>
             {{profile.bio}}
@@ -101,7 +104,9 @@
                         <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
                         <div class="listingContent">
                             <h2>{{listing.title}}</h2>
-                            <div class="listingImg"></div>
+                            <div class="listingImg">
+                                <img src="{{listing.image.url}} " width="120px" height="120px" />
+                            </div>
                             <p>Sted: {{listing.location}}</p>
                             <p>Kategori : {{listing.get_category_display}}</p>
                             {% if listing.agreement_req_listing.all %}
@@ -118,4 +123,3 @@
         </div>
     {% endif %}
 {% endblock%}
-

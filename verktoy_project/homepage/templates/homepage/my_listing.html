@@ -2,8 +2,10 @@
 {% block title %} Min {{listing.title}} {% endblock title%}
 {% block content %}
     <div>
-      <p class="listing_title">{{listing.title}}</p>
-      <div class="listingImg"></div>
+      <h1>{{listing.title}}</h1>
+      <div class="listingImgBig">
+        <img src="{{listing.image.url}} " width="350px" height="350px" />
+      </div>
       <br>
       <br>
       <p>Pris: <br>
@@ -56,4 +58,18 @@
     </div>
     </div>
     <br>
+    <div>
+      <h5>Anmeldelser</h5>
+      {% if averageReviewScore != 0 %}
+      <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+      <br>
+      {% endif %}
+      {% for r in reviews %}
+      <p>Tittel: {{r.title}}</p>
+      <p>Stjerner: {{r.rating}}</p>
+      <p>Anmeldelse: {{r.review}}</p>
+      <br>
+      <br>
+      {% endfor %}
+    </div>
 {% endblock content %}

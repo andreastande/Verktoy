@@ -15,13 +15,13 @@
 <body class="bg">
   <div class="landingpage">
     <div class="logodiv">
-      <a href="{% url 'homepage:listing_overview' %}">
+      <a href="{% url 'homepage:listing_overview' 'utlån' %}">
         <img src="{% static 'img/logo.png' %}" alt="En nydelig logo" class="logoIMG">
       </a>
     </div>
     <p>Velkommen til Lån!</p>
     <p> Her kan du låne verktøy du trenger og låne bort verktøy du ikke trenger</p>
-    <a href="{% url 'homepage:listing_overview' %}" class=knapp>Videre</a>
+    <a href="{% url 'homepage:listing_overview' 'utlån' %}" class=knapp>Videre</a>
   </div>
 
 </body>
