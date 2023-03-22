@@ -9,11 +9,12 @@
 <div class="yellowNavBox">
     <form action="{% url 'users:my_profile' %}" method="POST">
         {% csrf_token %}
-        <button type="submit" value = "Click" name="___________" class="yellowNavKnapp">Innstillinger</button>
+        <button type="submit" value = "Click" name="update_profile" class="yellowNavKnapp">Innstillinger</button>
         <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Aktive annonser</button>
         <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnapp">Utlånt</button>
         <br>
         <button type="submit" value = "Click" name="my_loans" class="yellowNavKnapp">Mine lån</button>
+        <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnapp">Lagrede annonser</button>
         <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - utlån</button>
         <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - lån</button>
     </form>
@@ -21,62 +22,64 @@
 {% endblock %}
 
 {% block contentboxMid %}
-    <div>
-
+    {%if settings == True%}
         <div>
-            <h3>Biografi</h3>
-            <div class='bioDIV'>
+            <div>
+                <h3>Biografi</h3>
+                <div class='bioDIV'>
+                    <p>
+                        {{profile.bio}}
+                    </p>
+                </div>
+            </div>
+    
+            <h3>Telefonnummer</h3>
+            <div class='tlfDIV'>
                 <p>
-                    {{profile.bio}}
+                    {{profile.tlf}}
                 </p>
             </div>
+    
+            <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
+            <br>
+  
         </div>
-
-        <h3>Telefonnummer</h3>
-        <div class='tlfDIV'>
-            <p>
-                {{profile.tlf}}
-            </p>
-        </div>
-
-        <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater bio</a>
-        <br>
-    </div>
-    <br>
-        <h3>Annonser</h3>
-
-
+    {% else %}
         <div>
-            {% for listing in listings %}
-                <div class="listingDIV">
-                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
-                    <div class="listingContent">
-                        <h2>{{listing.title}}</h2>
-                        <div class="listingImg"></div>
-                        <p>Sted: {{listing.location}}</p>
-                        <p>Kategori : {{listing.get_category_display}}</p>
-                        {% if listing.agreement_req_listing.all %}
-                            <p>Forespurt</p>
-                        {% endif %}
+            <h3>Annonser</h3>
+            <div>
+                {% for listing in listings %}
+                    <div class="listingDIV">
+                        <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                        <div class="listingContent">
+                            <h2>{{listing.title}}</h2>
+                            <div class="listingImg"></div>
+                            <p>Sted: {{listing.location}}</p>
+                            <p>Kategori : {{listing.get_category_display}}</p>
+                            {% if listing.agreement_req_listing.all %}
+                                <p>Forespurt</p>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endfor %}
+            </div>
+            <br>
+
+            <h3>Mine favoritter</h3>
+
+            <form action="" method = "POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Ny liste" class="knapp">
+            </form>
+
+            {%for favorittliste in mine_favoritter%}
+                <p>Listenavn: {{favorittliste.listName}}</p>
+                {% for annonse in favorittliste.annonser.all%}
+                    <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
+                {% endfor %}
             {% endfor %}
         </div>
-        <br>
-
-        <h3>Mine favoritter</h3>
-
-        <form action="" method = "POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Ny liste" class="knapp">
-        </form>
-
-        {%for favorittliste in mine_favoritter%}
-            <p>Listenavn: {{favorittliste.listName}}</p>
-            {% for annonse in favorittliste.annonser.all%}
-                <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
-            {% endfor %}
-        {% endfor %}
+    {% endif %}
 {% endblock%}
 

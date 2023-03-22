@@ -41,33 +41,58 @@ def my_profile(request):
     user_profile = current_user.profile
     
     user_listings = current_user.listing_set.all()
-    listings = []
-
-    if request.POST.get('loaned_out'):
-        for listing in user_listings:
-            if listing.loaned:
-                listings.append(listing)
+    showSettings = True
+    showFavourites = True
+    if request.POST.get('my_listings') or request.POST.get('loaned_out') or request.POST.get('my_loans'):
+        #Vise brukers annonser
+        listings = []
+        if request.POST.get('loaned_out'):
+            for listing in user_listings:
+                if listing.loaned:
+                    listings.append(listing)
+        
+        elif request.POST.get('my_loans'):
+            agreements= Agreement.objects.filter(loaner=request.user)
+            for agreement in agreements:
+                listings.append(agreement.listing)
+            #listings = agreements.objects.agreement_listing.all()
+        else:
+            for listing in user_listings:
+                if not listing.loaned:
+                    listings.append(listing)
+        
+        showSettings = False
+        showFavourites = False
+        allListings = Listing.objects.all()   
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings}
+        return render(request, 'users/my_profile.html', context)
     
-    elif request.POST.get('my_loans'):
-        agreements= Agreement.objects.filter(loaner=request.user)
-        for agreement in agreements:
-            listings.append(agreement.listing)
-        #listings = agreements.objects.agreement_listing.all()
+    elif request.POST.get('my_favourites'):
+        showSettings = False
+        listings = current_user.list_owner.all()
+        form = MakeFavouritesListForm(request.POST)
+        if form.is_valid():
+            newList = form.save(commit=False)
+            newList.owner = current_user
+            newList.save()        
+        else:
+            form = MakeFavouritesListForm()
+        
+        allListings = Listing.objects.all()
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'form':form, 'allListings': allListings}
+        return render(request, 'users/my_profile.html', context)
+    #elif request.POST.get('historikk'): ...
+        
     else:
-        for listing in user_listings:
-            if not listing.loaned:
-                listings.append(listing)
-                
-    mine_favoritter = current_user.list_owner.all()
-    form = MakeFavouritesListForm(request.POST)
+        showFavourites = False
+        #Returner ting som er relevant for settings
+        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile}
+        return render(request, 'users/my_profile.html', context)
+        #update profile
+    
     allListings = Listing.objects.all()
-    if form.is_valid():
-        newList = form.save(commit=False)
-        newList.owner = current_user
-        newList.save()        
-    else:
-        form = MakeFavouritesListForm()
-    context = {'user': current_user, 'listings': listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
+    
+    context = {'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
     return render(request, 'users/my_profile.html', context)
 
 @login_required
