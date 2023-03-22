@@ -61,15 +61,15 @@
     <div>
       <h5>Anmeldelser</h5>
       {% if averageReviewScore != 0 %}
-      <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
-      <br>
+        <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+        <br>
       {% endif %}
       {% for r in reviews %}
-      <p>Tittel: {{r.title}}</p>
-      <p>Stjerner: {{r.rating}}</p>
-      <p>Anmeldelse: {{r.review}}</p>
-      <br>
-      <br>
+        <p>Tittel: {{r.title}}</p>
+        <p>Stjerner: {{r.rating}}</p>
+        <p>Anmeldelse: {{r.review}}</p>
+        <br>
+        <br>
       {% endfor %}
     </div>
 {% endblock content %}

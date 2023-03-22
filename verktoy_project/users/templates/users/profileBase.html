@@ -4,7 +4,11 @@
   <head>
     <!-- ?{% now "U" %} gjør at .css ikke caches, kan fjernes når development er ferdig-->
     <link rel="stylesheet" href="{% static 'stylish.css'%}?{% now "U" %}">
+    <link rel="stylesheet" href="{% static 'review.css'%}?{% now "U" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <meta charset="utf-8" />
     <!-- Navn på siden -->
     <title>
