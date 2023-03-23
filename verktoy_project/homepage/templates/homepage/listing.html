@@ -4,79 +4,17 @@
     <div class="yellowHeadingBox">
       <h1>{{listing.title}}</h1>
     </div>
-    <div class="listingImgBig">
-      <img src="{{listing.image.url}} " width="200px" height="200px" />
+    <div >
+      <img src="{{listing.image.url}} " width="300px" height="300px" />
     </div>
-
-  {% endblock %}
-
-  {% block contentboxMid %}
-      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
-      <br>
-      <p>Pris: <br>
-        {{listing.price}}</p>
-      <br>
-      <p>Utlånsstatus: <br>
-        {% if listing.loaned %}
-          Utlånt
-        {% else %}
-          Tilgjengelig for utlån
-        {% endif %}
-      </p>
-      <br>
-      <p>Sted: <br>
-        {{listing.location}}</p>
-      <br>
-      <p>Beskrivelse: <br>
-        {{listing.description}}</p>
-      <br>
-      <p>Kategori <br>
-        {{listing.get_category_display}}</p>
-      <br>
-      <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="knapp">Tilbake til oversikt</a>
-    </div>
-    <br>
-
-
-    <div>
-    <form action="{% url 'homepage:listing' listing.id %}" method="POST">
-      {% csrf_token %}
-      <select id='userListDD' name='userListDD'>
-        {%for liste in dropdownList%}
-        <option value="{{liste.listName}}">{{liste.listName}}</option>
-        {%endfor%}
-      </select>        
-      <button type="submit" value = "Click" name="add_to_fav_btn">Lagre i liste</button>
-    </form>
-    <br>
-    </div>
-
-    {% if listing.loaned %}
-      <div>
-        <p>Objektet er allerede utlånt</p>
-      </div>
-    {% elif notRequested %}
-      <div>
-        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
-          {% csrf_token %}
-          <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
-        </form>
-      </div>
-    {% else %}
-    <div>
-      <p>
-        Lån er allerede forespurt
-      </p>
-    </div>
-    {% endif %}
-    {% if not alreadyReviewed %}
+    <div class="yellowNavBox">
+      {% if not alreadyReviewed %}
       <div>
         <form action=" {% url 'homepage:submit_review' listing.id %} " method="POST">
           {% csrf_token %}
           <h5>Skriv anmeldelse</h5>
           <div>
             <label>Vurder prouktet</label>
-            <br>
             <div class="rate">
               <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
               <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
@@ -105,21 +43,66 @@
       </div>
     {% endif %}
     <div>
-      <h5>Anmeldelser</h5>
+      <h5 style="color: white;">Anmeldelser</h5>
       {% if averageReviewScore != 0 %}
-        <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
-        <br>
+        <p style="font-weight: bold;">Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
       {% endif %}
       {% for r in reviews %}
 
-      <p>Tittel: {{r.title}}</p>
+      <p style="font-weight: bold;">Tittel: {{r.title}}</p>
       <p>Stjerner: {{r.rating}}</p>
       <p>Forfatter: <a href="{% url 'users:profile' r.user %}">{{r.user}}</a></p>
       <p>Anmeldelse: {{r.review}}</p>
-      <br>
-      <br>
       {% endfor %}
     </div>
+    </div>
   {% endblock %}
+
+{% block contentboxMid %}
+      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
+      <p>Pris: {{listing.price}}</p>
+      <p>Utlånsstatus:
+        {% if listing.loaned %}
+          Utlånt
+        {% else %}
+          Tilgjengelig for utlån
+        {% endif %}
+      </p>
+      <p>Sted: {{listing.location}}</p>
+      <p>Beskrivelse: {{listing.description}}</p>
+      <p>Kategori: {{listing.get_category_display}}</p>
+    {% if listing.loaned %}
+      <div>
+        <p style="font-weight: bold;">Objektet er allerede utlånt</p>
+      </div>
+    {% elif notRequested %}
+      <div>
+        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
+        </form>
+      </div>
+      <br>
+      <br>
+    {% else %}
+    <div>
+      <p style="font-weight: bold;">
+        Lån er allerede forespurt
+      </p>
+    </div>
+    {% endif %}
+    <div>
+      <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+        {% csrf_token %}
+        <select id='userListDD' name='userListDD'>
+          {%for liste in dropdownList%}
+          <option value="{{liste.listName}}">{{liste.listName}}</option>
+          {%endfor%}
+        </select>        
+        <button type="submit" value = "Click" name="add_to_fav_btn">Lagre i liste</button>
+      </form>
+      </div>
+
+{% endblock %}
 
 

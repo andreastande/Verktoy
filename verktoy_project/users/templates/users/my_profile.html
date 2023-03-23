@@ -86,6 +86,21 @@
         {%for favorittliste in mine_favoritter%}
             <p>Listenavn: {{favorittliste.listName}}</p>
             {% for listing in favorittliste.annonser.all%}
+            {% if  listing.agreement_req_listing.all%}
+                <div class="listingDIVreq">
+                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                    <div class="listingContent">
+                        <h2>{{listing.title}}</h2>
+                        <div class="listingImg">
+                            <img src="{{listing.image.url}} " width="120px" height="120px" />
+                        </div>
+                        <p>Eier: {{listing.owner}}</p>
+                        <p>Sted: {{listing.location}}</p>
+                        <p>Kategori : {{listing.get_category_display}}</p>
+                        <p>FORESPURT</p>
+                    </div>
+                </div>
+            {% else %}
                 <div class="listingDIV">
                     <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
                     <div class="listingContent">
@@ -96,13 +111,10 @@
                         <p>Eier: {{listing.owner}}</p>
                         <p>Sted: {{listing.location}}</p>
                         <p>Kategori : {{listing.get_category_display}}</p>
-                        {% if listing.agreement_req_listing.all %}
-                            <p>Forespurt</p>
-                        {% else %}
-                            <br>
-                        {% endif %}
+                        <br>
                     </div>
                 </div>
+            {% endif %}
             {% endfor %}
         {% endfor %}
     {% elif history == True%}
@@ -122,22 +134,35 @@
         <div>
             <div>
                 {% for listing in listings %}
-                    <div class="listingDIV">
-                        <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
-                        <div class="listingContent">
-                            <h2>{{listing.title}}</h2>
-                            <div class="listingImg">
-                                <img src="{{listing.image.url}} " width="120px" height="120px" />
+                    {% if  listing.agreement_req_listing.all%}
+                        <div class="listingDIVreq">
+                            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                            <div class="listingContent">
+                                <h2>{{listing.title}}</h2>
+                                <div class="listingImg">
+                                    <img src="{{listing.image.url}} " width="120px" height="120px" />
+                                </div>
+                                <p>Eier: {{listing.owner}}</p>
+                                <p>Sted: {{listing.location}}</p>
+                                <p>Kategori : {{listing.get_category_display}}</p>
+                                <p>FORESPURT</p>
                             </div>
-                            <p>Sted: {{listing.location}}</p>
-                            <p>Kategori : {{listing.get_category_display}}</p>
-                            {% if listing.agreement_req_listing.all %}
-                                <p>Forespurt</p>
-                            {% else %}
-                                <br>
-                            {% endif %}
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="listingDIV">
+                            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                            <div class="listingContent">
+                                <h2>{{listing.title}}</h2>
+                                <div class="listingImg">
+                                    <img src="{{listing.image.url}} " width="120px" height="120px" />
+                                </div>
+                                <p>Eier: {{listing.owner}}</p>
+                                <p>Sted: {{listing.location}}</p>
+                                <p>Kategori : {{listing.get_category_display}}</p>
+                                <br>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
             <br>
