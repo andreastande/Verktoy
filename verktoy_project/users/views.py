@@ -67,7 +67,21 @@ def my_profile(request):
         newList.save()        
     else:
         form = MakeFavouritesListForm()
-    context = {'user': current_user, 'listings': listings, 'profile': user_profile, 'mine_favoritter':mine_favoritter, 'form':form, 'allListings': allListings}
+        
+    #Henter ut tidligere inngåtte avtaler
+    #previous_loaned_out har alle tidligere avtaler hvor du har vært eier av produktet
+    #previous_loaned har alle tidligere avtaler hvor du har vært den som låner bruktet
+    previous_loaned_out_agreements=Agreement.objects.filter(owner=current_user).filter(active=False)
+    previous_loaned_agreements=Agreement.objects.filter(loaner=current_user).filter(active=False)
+    context = {'user': current_user, 
+               'listings': listings, 
+               'profile': user_profile, 
+               'mine_favoritter':mine_favoritter, 
+               'form':form, 
+               'allListings': allListings,
+               'previous_loaned_out_agreements': previous_loaned_out_agreements,
+               'previous_loaned_agreements': previous_loaned_agreements}
+    
     return render(request, 'users/my_profile.html', context)
 
 @login_required
