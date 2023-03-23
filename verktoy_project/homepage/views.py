@@ -73,8 +73,7 @@ def listing(request, listing_id):
     if listing.owner == request.user:
         myListing = True
         if listing.loaned:
-            #loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
-            loanedBy = listing.agreement_listing.filter(owner=listing.owner, active=True).loaner
+            loanedBy = listing.agreement_listing.filter(owner=listing.owner, active=True)[0].loaner
         context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews, 'averageReviewScore':averageReviewScore}
         return render(request, 'homepage/my_listing.html', context)
 
