@@ -29,15 +29,15 @@
         {% else %}
         <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnapp">Lagrede annonser</button>
         {% endif %}
-        {% if activePage == '____' %}
-        <button type="submit" value = "Click" name="___" class="yellowNavKnappSelected">Historikk - utlån</button>
+        {% if activePage == 'historikk_utlan' %}
+        <button type="submit" value = "Click" name="historikk_utlan" class="yellowNavKnappSelected">Historikk - utlån</button>
         {% else %}
-        <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - utlån</button>
+        <button type="submit" value = "Click" name="historikk_utlan" class="yellowNavKnapp">Historikk - utlån</button>
         {% endif %}
-        {% if activePage == '___' %}
-        <button type="submit" value = "Click" name="___" class="yellowNavKnappSelected">Historikk - lån</button>
+        {% if activePage == 'historikk_lan' %}
+        <button type="submit" value = "Click" name="historikk_lan" class="yellowNavKnappSelected">Historikk - lån</button>
         {% else %}
-        <button type="submit" value = "Click" name="___" class="yellowNavKnapp">Historikk - lån</button>
+        <button type="submit" value = "Click" name="historikk_lan" class="yellowNavKnapp">Historikk - lån</button>
         {% endif %}
         {% if activePage == 'Settings' %}
             <button type="submit" value = "Click" name="update_profile" class="yellowNavKnappSelected">Innstillinger</button>
@@ -68,6 +68,12 @@
                 <button type="submit" value = "Click" name="Oppdater" class="knapp">Oppdater Profil</button>
             </form>
             <br>
+
+            <form action="{% url 'users:removeUser' user.username %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette kontoen?')">
+                {% csrf_token %}
+                <button type="submit" value = "Click" name="remove_user" style="background-color:indianred;">Slett konto</button>
+            </form>
+        
         </div>
     {% elif favourites == True%}
 
@@ -87,6 +93,7 @@
                         <div class="listingImg">
                             <img src="{{listing.image.url}} " width="120px" height="120px" />
                         </div>
+                        <p>Eier: {{listing.owner}}</p>
                         <p>Sted: {{listing.location}}</p>
                         <p>Kategori : {{listing.get_category_display}}</p>
                         {% if listing.agreement_req_listing.all %}
@@ -98,6 +105,19 @@
                 </div>
             {% endfor %}
         {% endfor %}
+    {% elif history == True%}
+            <div>
+                {%for agreement in history_agreements%}
+                    <div class="historyDIV">
+                        <div class="listingImg">
+                            <img src="{{agreement.listing.image.url}} " width="120px" height="120px" />
+                        </div>
+                        <p>Annonse:<a href="{% url 'homepage:listing' listing_id=agreement.listing.id %}">{{agreement.listing.title}}</a></p>
+                        <p>Lånt fra {{agreement.start_date}} til {{agreement.end_date}}</p>
+                        <p>Eier: <a href="{% url 'users:profile' agreement.owner %}">{{agreement.owner}}</a>, Låner: <a href="{% url 'users:profile' agreement.loaner %}">{{agreement.loaner}}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
     {% else %}
         <div>
             <div>

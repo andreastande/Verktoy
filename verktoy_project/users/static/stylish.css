@@ -196,25 +196,13 @@ button:active, .knapp:active, .knappStor:active{
     text-align: center;
 }
 
-.bioDIV {
-    background-color: rgb(222, 229, 229);
-    border-radius: 10px;
-    padding: 50px;
-    margin: 20px;
-    width: 400px;
-    height: auto;
 
-    display: inline-block;
-}
-.tlfDIV {
-    background-color: rgb(222, 229, 229);
+.historyDIV{
+    margin: 10px;
     border-radius: 5px;
     padding: 10px;
-    margin: 20px;
-    width: 175px;
-    height: auto;
-
-    display: inline-block;
+    background-color: rgba(255, 206, 82, 0.751);
+    font-weight: bold;
 }
 @keyframes blinker {
     from {opacity: 1.0;}
@@ -278,23 +266,19 @@ button:active, .knapp:active, .knappStor:active{
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 10px;
-    width: 15vw;
+    width: 18vw;
     text-align: left;
 }
 
-.yellowNavKnapp {
+.yellowNavKnapp, .yellowNavKnappSelected {
     background-color: transparent;
     text-align: left;
     color: white;
-    width: 12vw;
+    width: 15vw;
     font-weight: bolder;
 }
 .yellowNavKnappSelected {
     background-color: rgba(255, 210, 131, 0.584);
-    text-align: left;
-    color: white;
-    width: 12vw;
-    font-weight: bolder;
 }
 
 .yellowNavKnapp:hover, .yellowNavKnappSelected:hover {
@@ -309,6 +293,7 @@ button:active, .knapp:active, .knappStor:active{
     text-align: center;
     display: inline-block;
     padding-top: 10px;
+    padding-bottom: 20px;
     color: white;
 }
 

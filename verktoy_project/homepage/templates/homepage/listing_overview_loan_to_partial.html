@@ -7,7 +7,7 @@
                 <div class="listingImg">
                     <img src="{{listing.image.url}} " width="120px" height="120px" />
                 </div>
-                <p>Eier:   <a href="{% url 'users:profile' listing.owner %}">  <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a> </a> </p>
+                <p>Eier: {{listing.owner}}</a> </a> </p>
                 <p>Sted: {{listing.location}}</p>
                 <p>Kategori : {{listing.get_category_display}}</p>
                 <br>

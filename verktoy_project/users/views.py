@@ -38,19 +38,19 @@ def signup(request):
 #Henter min profil-siden
 @login_required
 def my_profile(request):
-    previous_loaned_out_agreements=Agreement.objects.filter(owner=current_user).filter(active=False)
-    previous_loaned_agreements=Agreement.objects.filter(loaner=current_user).filter(active=False)
     current_user = request.user
     user_profile = current_user.profile
     activePage = "Settings"
     user_listings = current_user.listing_set.all()
     showSettings = False
     showFavourites = True
+    showHistory = False
     heading = 'Mine aktive Annonser'
     if(request.POST.get('update_profile') or request.POST.get('Oppdater')): #Settings
         heading = 'Rediger profil'
         showFavourites = False
         showSettings = True
+        showHistory = False
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
         if profile_form.is_valid():
             profile_form.save()
@@ -60,7 +60,7 @@ def my_profile(request):
             profile_form = ProfileForm(instance=request.user.profile)
 
         #Returner ting som er relevant for settings
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'activePage':activePage,'profile_form': profile_form,'heading':heading}
+        context = {'history':showHistory,'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'activePage':activePage,'profile_form': profile_form,'heading':heading}
         return render(request, 'users/my_profile.html', context)
         #update profile
     elif request.POST.get('loaned_out') or request.POST.get('my_loans'):
@@ -84,13 +84,14 @@ def my_profile(request):
         showSettings = False
         showFavourites = False
         allListings = Listing.objects.all()   
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings, 'activePage':activePage,'heading':heading}
+        context = {'history':showHistory,'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'listings': listings, 'profile': user_profile, 'allListings': allListings, 'activePage':activePage,'heading':heading}
         return render(request, 'users/my_profile.html', context)
     
     
     elif (request.POST.get('my_favourites') or request.POST.get('Ny_Liste') ):
-        heading = 'Mine Favoritter'
+        heading = 'Mine Lister'
         activePage = "MyFavourites"
+        showHistory = False
         showSettings = False
         mine_favoritter = current_user.list_owner.all()
         form = MakeFavouritesListForm(request.POST)
@@ -102,9 +103,23 @@ def my_profile(request):
             form = MakeFavouritesListForm()
         
         allListings = Listing.objects.all()
-        context = {'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'form':form, 'allListings': allListings,'mine_favoritter':mine_favoritter, 'activePage':activePage,'heading':heading}
+        context = {'history':showHistory,'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'form':form, 'allListings': allListings,'mine_favoritter':mine_favoritter, 'activePage':activePage,'heading':heading}
         return render(request, 'users/my_profile.html', context)
-    #elif request.POST.get('historikk'): ...
+    elif request.POST.get('historikk_lan') or request.POST.get('historikk_utlan'): 
+        showHistory = True
+        showFavourites = False
+        showSettings = False
+        if request.POST.get('historikk_lan'):
+            heading = 'Mine tildligere lån'
+            activePage = 'historikk_lan'
+            history_agreements=Agreement.objects.filter(loaner=current_user).filter(active=False)
+        else:
+            heading = 'Mine tildligere utlån'
+            activePage = 'historikk_utlan'
+            history_agreements=Agreement.objects.filter(owner=current_user).filter(active=False)
+        context = {'history_agreements':history_agreements,'history':showHistory,'favourites': showFavourites,'settings':showSettings, 'user': current_user, 'profile': user_profile, 'activePage':activePage,'heading':heading}
+        return render(request, 'users/my_profile.html', context)
+
     else: #Default: vise aktive listings
         listings = []
         activePage = "MyListings"
