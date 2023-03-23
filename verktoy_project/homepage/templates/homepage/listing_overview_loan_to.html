@@ -2,7 +2,7 @@
 {% block title %} Annonse {% endblock title%}
 {% block content %}
     <div class="row">
-        <div class="column left" style="position:relative; left:100px">
+        <div class="column left" style="position:relative; left:30px">
             <div class="filtersquare" style = "position:fixed;">
                 <h1>Filter</h1>
                 <form action="" method="GET">
@@ -32,8 +32,8 @@
             <br>
             <form action="" method="POST">
                 {% csrf_token %}
-                <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="bigButton">Utlån</a>
-                <a href="{% url 'homepage:listing_overview' 'lånbort' %}" class="bigButton">Lån bort til andre</a>
+                <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="bigButton">Lånes ut</a>
+                <a href="{% url 'homepage:listing_overview' 'lånbort' %}" class="bigButton">Ønskes lånt</a>
             </form>
             <br>
             <br>

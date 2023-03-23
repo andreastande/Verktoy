@@ -1,90 +1,172 @@
-{% extends "users/base.html" %}
+{% extends "users/profileBase.html" %}
 {% load ratings %}
 {% block title %} Min profil {% endblock title%}
-{% block content %}
-<div>
-    <h1>Velkommen til din profil, {{user.username}}!</h1>
-
-    <div>
-        <h3>Biografi</h3>
-        <div class='bioDIV'>
-            <p>
-                {{profile.bio}}
-            </p>
-        </div>
-        <h3>Telefonnummer</h3>
-        <div class='tlfDIV'>
-            <p>
-                {{profile.tlf}}
-            </p>
-        </div>
-        <br>
-        <br>
-        <h3>Din vurdering</h3>
-        {% ratings user read_only='True' %}
-        <br>
-        <br>
-        <br>
-    </div>
-
-    <a href="{% url 'users:update_profile' %}" class="knapp">Oppdater</a>
-    <br>
-    <h3>Mine favoritter</h3>
-
-    <form action="" method = "POST">
+{%block contentL%}
+<div class="yellowHeadingBox"> 
+    <h1>Velkommen,</h1>
+    <h1>{{user.username}}</h1>
+</div>
+<div class="yellowNavBox">
+    <form action="{% url 'users:my_profile' %}" method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Ny liste" class="knapp">
+        {% if activePage == 'MyListings' %}
+        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnappSelected">Aktive annonser</button>
+        {% else %}
+        <button type="submit" value = "Click" name="my_listings" class="yellowNavKnapp">Aktive annonser</button>
+        {% endif %}
+        {% if activePage == 'LoanedOut' %}
+        <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnappSelected">Utlånt</button>
+        {% else %}
+        <button type="submit" value = "Click" name="loaned_out" class="yellowNavKnapp">Utlånt</button>
+        {% endif %}
+        {% if activePage == 'MyLoans' %}
+        <button type="submit" value = "Click" name="my_loans" class="yellowNavKnappSelected">Mine lån</button>
+        {% else %}
+        <button type="submit" value = "Click" name="my_loans" class="yellowNavKnapp">Mine lån</button>
+        {% endif %}
+        {% if activePage == 'MyFavourites' %}
+        <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnappSelected">Lagrede annonser</button>
+        {% else %}
+        <button type="submit" value = "Click" name="my_favourites" class="yellowNavKnapp">Lagrede annonser</button>
+        {% endif %}
+        {% if activePage == 'historikk_utlan' %}
+        <button type="submit" value = "Click" name="historikk_utlan" class="yellowNavKnappSelected">Historikk - utlån</button>
+        {% else %}
+        <button type="submit" value = "Click" name="historikk_utlan" class="yellowNavKnapp">Historikk - utlån</button>
+        {% endif %}
+        {% if activePage == 'historikk_lan' %}
+        <button type="submit" value = "Click" name="historikk_lan" class="yellowNavKnappSelected">Historikk - lån</button>
+        {% else %}
+        <button type="submit" value = "Click" name="historikk_lan" class="yellowNavKnapp">Historikk - lån</button>
+        {% endif %}
+        {% if activePage == 'Settings' %}
+            <button type="submit" value = "Click" name="update_profile" class="yellowNavKnappSelected">Innstillinger</button>
+        {% else %}
+            <button type="submit" value = "Click" name="update_profile" class="yellowNavKnapp">Innstillinger</button>
+        {% endif %}
     </form>
+</div>
+<div class="yellowNavBox">
+    <h3>Telefonnummer:  </h3>
+    <p>{{profile.tlf}}</p>
+    <h3>Din vurdering: </h3>
+    {% ratings user read_only='True' %}
+    <h3>Biografi</h3>
+        <p>
+            {{profile.bio}}
+        </p>
+</div>
+{% endblock %}
 
-    {%for favorittliste in mine_favoritter%}
-        <p>Listenavn: {{favorittliste.listName}}</p>
-        {% for annonse in favorittliste.annonser.all%}
-            <a href="{% url 'homepage:listing' listing_id=annonse.id %}">{{annonse.title}}</a>
-        {% endfor %}
-    {% endfor %}
+{% block contentboxMid %}
+    <h2>{{heading}}</h2>
+    {%if settings == True%}
+        <div>
+            <form action="{% url 'users:my_profile' %}" method = "post">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <button type="submit" value = "Click" name="Oppdater" class="knapp">Oppdater Profil</button>
+            </form>
+            <br>
 
-    <br>
-    <h3>Annonser</h3>
-    <div>
-        <form action="{% url 'users:my_profile' %}" method="POST">
+            <form action="{% url 'users:removeUser' user.username %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette kontoen?')">
+                {% csrf_token %}
+                <button type="submit" value = "Click" name="remove_user" style="background-color:indianred;">Slett konto</button>
+            </form>
+        
+        </div>
+    {% elif favourites == True%}
+
+        <form action="{% url 'users:my_profile' %}" method = "POST">
             {% csrf_token %}
-            <button type="submit" value = "Click" name="my_listings">Mine annonser</button>
-            <button type="submit" value = "Click" name="loaned_out">Mine utlån</button>
-            <button type="submit" value = "Click" name="my_loans">Mine lån</button>
+            {{ form.as_p }}
+            <button type="submit" value = "Click" name="Ny_Liste" class="knapp">Ny liste</button>
         </form>
-    </div>
 
-    <div>
-        {% for listing in listings %}
-            <div class="listingDIV">
-                <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
-                <div class="listingContent">
-                    <h2>{{listing.title}}</h2>
-                    <div class="listingImg">
-                        <img src="{{listing.image.url}} " width="120px" height="120px" />
+        {%for favorittliste in mine_favoritter%}
+            <p>Listenavn: {{favorittliste.listName}}</p>
+            {% for listing in favorittliste.annonser.all%}
+            {% if  listing.agreement_req_listing.all%}
+                <div class="listingDIVreq">
+                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                    <div class="listingContent">
+                        <h2>{{listing.title}}</h2>
+                        <div class="listingImg">
+                            <img src="{{listing.image.url}} " width="120px" height="120px" />
+                        </div>
+                        <p>Eier: {{listing.owner}}</p>
+                        <p>Sted: {{listing.location}}</p>
+                        <p>Kategori : {{listing.get_category_display}}</p>
+                        <p>FORESPURT</p>
                     </div>
-                    <p>Sted: {{listing.location}}</p>
-                    <p>Kategori : {{listing.get_category_display}}</p>
-                    
-                    {% if listing.agreement_req_listing.all %}
-                        <p>Forespurt</p>
-                    {% endif %}
                 </div>
-            </div>
+            {% else %}
+                <div class="listingDIV">
+                    <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                    <div class="listingContent">
+                        <h2>{{listing.title}}</h2>
+                        <div class="listingImg">
+                            <img src="{{listing.image.url}} " width="120px" height="120px" />
+                        </div>
+                        <p>Eier: {{listing.owner}}</p>
+                        <p>Sted: {{listing.location}}</p>
+                        <p>Kategori : {{listing.get_category_display}}</p>
+                        <br>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
         {% endfor %}
-    </div>
-    <br>
-</div>
-<div>
-<form action="{% url 'users:removeUser' user.username %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette kontoen?')">
-        {% csrf_token %}
-        <button type="submit" value = "Click" name="remove_user">Slett konto</button>
-      </form>
+    {% elif history == True%}
+            <div>
+                {%for agreement in history_agreements%}
+                    <div class="historyDIV">
+                        <div class="listingImg">
+                            <img src="{{agreement.listing.image.url}} " width="120px" height="120px" />
+                        </div>
+                        <p>Annonse:<a href="{% url 'homepage:listing' listing_id=agreement.listing.id %}">{{agreement.listing.title}}</a></p>
+                        <p>Lånt fra {{agreement.start_date}} til {{agreement.end_date}}</p>
+                        <p>Eier: <a href="{% url 'users:profile' agreement.owner %}">{{agreement.owner}}</a>, Låner: <a href="{% url 'users:profile' agreement.loaner %}">{{agreement.loaner}}</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+    {% else %}
+        <div>
+            <div>
+                {% for listing in listings %}
+                    {% if  listing.agreement_req_listing.all%}
+                        <div class="listingDIVreq">
+                            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                            <div class="listingContent">
+                                <h2>{{listing.title}}</h2>
+                                <div class="listingImg">
+                                    <img src="{{listing.image.url}} " width="120px" height="120px" />
+                                </div>
+                                <p>Eier: {{listing.owner}}</p>
+                                <p>Sted: {{listing.location}}</p>
+                                <p>Kategori : {{listing.get_category_display}}</p>
+                                <p>FORESPURT</p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="listingDIV">
+                            <a href="{% url 'homepage:listing' listing_id=listing.id %}" class="listingLink">invisible link!</a>
+                            <div class="listingContent">
+                                <h2>{{listing.title}}</h2>
+                                <div class="listingImg">
+                                    <img src="{{listing.image.url}} " width="120px" height="120px" />
+                                </div>
+                                <p>Eier: {{listing.owner}}</p>
+                                <p>Sted: {{listing.location}}</p>
+                                <p>Kategori : {{listing.get_category_display}}</p>
+                                <br>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br>
 
-    <br>
-    <br>
-
-</div>
-
-{% endblock content %}
+        </div>
+    {% endif %}
+{% endblock%}

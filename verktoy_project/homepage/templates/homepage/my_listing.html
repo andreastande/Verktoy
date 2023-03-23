@@ -1,5 +1,78 @@
-{% extends "users/base.html" %}
-{% block title %} Min {{listing.title}} {% endblock title%}
+{% extends "users/profileBase.html" %}
+  {% block title %} Min {{listing.title}} {% endblock title%}
+  {% block contentL %}
+    <div class="yellowHeadingBox">
+      <h1>{{listing.title}}</h1>
+    </div>
+    <div >
+      <img src="{{listing.image.url}} " width="300px" height="300px" />
+    </div>
+    <div class="yellowNavBox">
+    <div>
+      <h5 style="color: white;">Anmeldelser</h5>
+      {% if averageReviewScore != 0 %}
+        <p style="font-weight: bold;">Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+      {% endif %}
+      {% for r in reviews %}
+
+      <p style="font-weight: bold;">Tittel: {{r.title}}</p>
+      <p>Stjerner: {{r.rating}}</p>
+      <p>Forfatter: <a href="{% url 'users:profile' r.user %}">{{r.user}}</a></p>
+      <p>Anmeldelse: {{r.review}}</p>
+      {% endfor %}
+    </div>
+    </div>
+  {% endblock %}
+
+{% block contentboxMid %}
+      <p>Eier: Deg</a></p>
+      <p>Pris: {{listing.price}}</p>
+      <p>Utlånsstatus: <br>
+        {% if listing.loaned %}
+          <p>Utlånt til <a href="{% url 'users:profile' loanedBy %}">{{loanedBy}}</a></p>
+        {% else %}
+          Tilgjengelig for utlån
+        {% endif %}
+      </p>
+      <p>Sted: {{listing.location}}</p>
+      <p>Beskrivelse: {{listing.description}}</p>
+      <p>Kategori: {{listing.get_category_display}}</p>
+      
+      {% for ag_req in agreement_requests %}
+      <div>
+        <div>
+          <form action="{% url 'homepage:listing' listing.id%}" method="POST">
+            {% csrf_token %}
+            Låneforespørsel fra <a href="{% url 'users:profile' ag_req.loaner %}">{{ag_req.loaner}}</a><br>
+            <input type="hidden" name="ag_req_pk_field" value="{{ag_req.pk}}">
+            <button type="submit" value="Click" name="accept_btn">Aksepter</button>
+            <button type="submit" value="Click" name="decline_btn">Avslå</button>
+          </form>
+          <br>
+        </div>
+      </div>
+    {% endfor %}
+    <a href="{% url 'homepage:edit_listing' listing_id=listing.id %}" class="knapp">Rediger</a>
+    <br>
+    <br>
+    {% if listing.loaned %}
+      <form action="{% url 'homepage:end_agreement' listing.id %}" method="post" onsubmit="return confirm('Er du sikker på at du vil avslutte lånet?')">
+        {% csrf_token %}
+        <button type="submit" value = "Click" name="end_agree">Avslutt utlån</button>
+      </form>
+    {% endif %}
+    <br>
+    <form action="{% url 'homepage:remove_listing' listing.id %}" method="post" onsubmit="return confirm('Er du sikker på at du vil slette annonsen?')">
+      {% csrf_token %}
+      <button type="submit" value = "Click" name="remove_list" style="background-color:indianred;">Slett annonse</button>
+    </form>
+{% endblock %}
+
+
+
+
+
+
 {% block content %}
     <div>
       <h1>{{listing.title}}</h1>
@@ -69,15 +142,15 @@
     <div>
       <h5>Anmeldelser</h5>
       {% if averageReviewScore != 0 %}
-      <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
-      <br>
+        <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+        <br>
       {% endif %}
       {% for r in reviews %}
-      <p>Tittel: {{r.title}}</p>
-      <p>Stjerner: {{r.rating}}</p>
-      <p>Anmeldelse: {{r.review}}</p>
-      <br>
-      <br>
+        <p>Tittel: {{r.title}}</p>
+        <p>Stjerner: {{r.rating}}</p>
+        <p>Anmeldelse: {{r.review}}</p>
+        <br>
+        <br>
       {% endfor %}
     </div>
 {% endblock content %}

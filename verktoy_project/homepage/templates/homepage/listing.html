@@ -1,38 +1,96 @@
-{% extends "users/base.html" %}
+{% extends "users/profileBase.html" %}
   {% block title %} Annonse {% endblock title%}
-  {% block content %}
+  {% block contentL %}
+    <div class="yellowHeadingBox">
+      <h1>{{listing.title}}</h1>
+    </div>
+    <div >
+      <img src="{{listing.image.url}} " width="300px" height="300px" />
+    </div>
+    <div class="yellowNavBox">
+      {% if not alreadyReviewed %}
       <div>
-        <h1>{{listing.title}}</h1>
-        <div class="listingImgBig">
-          <img src="{{listing.image.url}} " width="350px" height="350px" />
-        </div>
-        <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
-        <br>
-        <p>Pris: <br>
-          {{listing.price}}</p>
-        <br>
-        <p>Utlånsstatus: <br>
-          {% if listing.loaned %}
-            Utlånt
-          {% else %}
-            Tilgjengelig for utlån
-          {% endif %}
-        </p>
-        <br>
-        <p>Sted: <br>
-          {{listing.location}}</p>
-        <br>
-        <p>Beskrivelse: <br>
-          {{listing.description}}</p>
-        <br>
-        <p>Kategori <br>
-          {{listing.get_category_display}}</p>
-        <br>
-        <a href="{% url 'homepage:listing_overview' 'utlån' %}" class="knapp">Tilbake til oversikt</a>
+        <form action=" {% url 'homepage:submit_review' listing.id %} " method="POST">
+          {% csrf_token %}
+          <h5>Skriv anmeldelse</h5>
+          <div>
+            <label>Vurder prouktet</label>
+            <div class="rate">
+              <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
+              <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
+              <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8" title="4"></label>
+              <input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7" title="3.5" class="half"></label>
+              <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6" title="3"></label>
+              <input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5" title="2.5" class="half"></label>
+              <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4" title="2"></label>
+              <input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3" title="1.5" class="half"></label>
+              <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2" title="1"></label>
+              <input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1" title="0.5" class="half"></label>
+            </div>
+            <br>
+            Tittel: 
+            <input type="text" class = "form-control" name ="title">
+            <br>
+            <br>
+            Anmeldelse:
+            <textarea name = "review" rows="5" class="form-control"></textarea>
+            <br>
+            <br>
+            <button type="submit" values="submit_review" name ="submit_review">Post anmeldelse</button>
+            <br>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+    <div>
+      <h5 style="color: white;">Anmeldelser</h5>
+      {% if averageReviewScore != 0 %}
+        <p style="font-weight: bold;">Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
+      {% endif %}
+      {% for r in reviews %}
+
+      <p style="font-weight: bold;">Tittel: {{r.title}}</p>
+      <p>Stjerner: {{r.rating}}</p>
+      <p>Forfatter: <a href="{% url 'users:profile' r.user %}">{{r.user}}</a></p>
+      <p>Anmeldelse: {{r.review}}</p>
+      {% endfor %}
+    </div>
+    </div>
+  {% endblock %}
+
+{% block contentboxMid %}
+      <p>Eier: <a href="{% url 'users:profile' listing.owner %}">{{listing.owner}}</a></p>
+      <p>Pris: {{listing.price}}</p>
+      <p>Utlånsstatus:
+        {% if listing.loaned %}
+          Utlånt
+        {% else %}
+          Tilgjengelig for utlån
+        {% endif %}
+      </p>
+      <p>Sted: {{listing.location}}</p>
+      <p>Beskrivelse: {{listing.description}}</p>
+      <p>Kategori: {{listing.get_category_display}}</p>
+    {% if listing.loaned %}
+      <div>
+        <p style="font-weight: bold;">Objektet er allerede utlånt</p>
+      </div>
+    {% elif notRequested %}
+      <div>
+        <form action="{% url 'homepage:listing' listing.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
+        </form>
       </div>
       <br>
-
-  
+      <br>
+    {% else %}
+    <div>
+      <p style="font-weight: bold;">
+        Lån er allerede forespurt
+      </p>
+    </div>
+    {% endif %}
     <div>
       <form action="{% url 'homepage:listing' listing.id %}" method="POST">
         {% csrf_token %}
@@ -43,78 +101,8 @@
         </select>        
         <button type="submit" value = "Click" name="add_to_fav_btn">Lagre i liste</button>
       </form>
-      <br>
-    </div>
-
-    {% if listing.loaned %}
-        <div>
-          <p>Objektet er allerede utlånt</p>
-        </div>
-      {% elif notRequested %}
-        <div>
-          <form action="{% url 'homepage:listing' listing.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit" value = "Click" name="request_btn">Forespør utlån</button>
-          </form>
-        </div>
-      {% else %}
-      <div>
-        <p>
-          Lån er allerede forespurt
-        </p>
       </div>
-      {% endif %}
-      {% if not alreadyReviewed %}
-        <div>
-          <form action=" {% url 'homepage:submit_review' listing.id %} " method="POST">
-            {% csrf_token %}
-            <h5>Skriv anmeldelse</h5>
-            <div>
-              <label>Vurder prouktet</label>
-              <br>
-              <div class="rate">
-                <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10" title="5"></label>
-                <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5" class="half"></label>
-                <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8" title="4"></label>
-                <input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7" title="3.5" class="half"></label>
-                <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6" title="3"></label>
-                <input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5" title="2.5" class="half"></label>
-                <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4" title="2"></label>
-                <input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3" title="1.5" class="half"></label>
-                <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2" title="1"></label>
-                <input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1" title="0.5" class="half"></label>
-              </div>
-              <br>
-              Tittel: 
-              <input type="text" class = "form-control" name ="title">
-              <br>
-              <br>
-              Anmeldelse:
-              <textarea name = "review" rows="5" class="form-control"></textarea>
-              <br>
-              <br>
-              <button type="submit" values="submit_review" name ="submit_review">Post anmeldelse</button>
-              <br>
-            </div>
-          </form>
-        </div>
-      {% endif %}
-      <div>
-        <h5>Anmeldelser</h5>
-        {% if averageReviewScore != 0 %}
-          <p>Gjennomsnittlig vurdering: {{averageReviewScore}}</p>
-          <br>
-        {% endif %}
-        {% for r in reviews %}
 
-        <p>Tittel: {{r.title}}</p>
-        <p>Stjerner: {{r.rating}}</p>
-        <p>Forfatter: <a href="{% url 'users:profile' r.user %}">{{r.user}}</a></p>
-        <p>Anmeldelse: {{r.review}}</p>
-        <br>
-        <br>
-        {% endfor %}
-      </div>
-  {% endblock content %}
+{% endblock %}
 
 

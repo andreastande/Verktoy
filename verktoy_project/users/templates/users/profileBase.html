@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="{% static 'review.css'%}?{% now "U" %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="{% static '/img/standinFavIcon.png'%}">
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
     <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
-
+    <meta charset="utf-8" />
     <!-- Navn på siden -->
     <title>
       {% block title %}{% endblock %}
@@ -33,14 +31,8 @@
         <a href="{% url 'users:signup' %}" class="knapp">Registrer deg</a>
         {% endif %}
     </div>
-
-    <!-- FontAwesome CDN -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
-    <!-- JQuery CDN -->
-    <script src="{% static 'javascript/jquery-3.4.1.min.js' %}"></script>
-
-  </header>
+  </div>
+</header>
 
   <body class="bg">
     <div class="contentBG">
@@ -50,21 +42,11 @@
         {% endblock %}
       </div>
       
-      <div class="contentbox">
+      <div class="contentboxMid">
         <!-- Sideinnhold -->
-        {% block content %}
-        {% endblock %}
-      </div>
-      
-      <div class="contentboxR">
-          <!-- Sideinnhold -->
-          {% block contentR %}
-          {% endblock %}
+        {% block contentboxMid %}
+        {% endblock%}
       </div>
     </div>
-    {% block footer %}
-      <script type="text/javascript" src="{% static "javascript/main.js" %}"></script>
-    {% endblock %} 
   </body>
 </html>
-

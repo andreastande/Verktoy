@@ -15,14 +15,34 @@
     padding: 0px;
     min-height: 80vh;
     height: auto;
+    text-align: left;
+}
+
+.contentboxL{
+    margin: auto;
+    width: 25%;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
+    height: max-content;
+    vertical-align: top;
 }
 
 .contentbox{
     margin: auto;
     width: 100%;
-    padding: 10px;
     text-align: center;
-    font-family: Arial
+    display: inline-block;
+    padding-top: 10px;
+}
+
+.contentboxR{
+    background-color: rgb(162, 162, 162);
+    margin: auto;
+    width: 25%;
+    text-align: center;
+    display: inline-block;
+    margin-top: 10px;
 }
 
 
@@ -111,7 +131,7 @@ button:active, .knapp:active, .knappStor:active{
     font-size: 25px; 
     margin: 10px;
     position:relative;
-    left:135px;
+    left:30px;
     display:inline-block;
     margin-top: 225px;
 }
@@ -134,9 +154,10 @@ button:active, .knapp:active, .knappStor:active{
     height: 20vh;
 }
 
-.listingDIV{
+.listingDIV, .listingDIVreq{
     background-color: rgba(218, 218, 218, 0.737);
     box-shadow: 1px 3px 5px rgba(63, 63, 63, 0.813);
+    color: black;
     padding: 20px;
     margin: 20px;
     border-radius: 5px;
@@ -145,9 +166,12 @@ button:active, .knapp:active, .knappStor:active{
     height: 250px;
     line-height: 5px;
     text-align: left;
+    font-size: medium;
 }
-
-.listingDIV:hover{
+.listingDIVreq{
+    background-color: rgba(255, 255, 255, 0.845);
+}
+.listingDIV:hover, .listingDIVreq:hover{
     background-color: rgba(192, 223, 225, 0.737);
 }
 
@@ -175,27 +199,14 @@ button:active, .knapp:active, .knappStor:active{
     text-align: center;
 }
 
-.bioDIV {
-    background-color: rgb(222, 229, 229);
-    border-radius: 10px;
-    padding: 50px;
-    margin: 20px;
-    width: 400px;
-    height: auto;
 
-    display: inline-block;
-}
-.tlfDIV {
-    background-color: rgb(222, 229, 229);
+.historyDIV{
+    margin: 10px;
     border-radius: 5px;
     padding: 10px;
-    margin: 20px;
-    width: 175px;
-    height: auto;
-
-    display: inline-block;
+    background-color: rgba(255, 206, 82, 0.751);
+    font-weight: bold;
 }
-
 @keyframes blinker {
     from {opacity: 1.0;}
     to {opacity: 0.0;}
@@ -243,3 +254,52 @@ button:active, .knapp:active, .knappStor:active{
     display: table;
     clear: both;
 }
+
+.yellowHeadingBox {
+    background-color: rgb(230,176,80);
+    color: white;
+    padding: 10px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.yellowNavBox{
+    background-color: rgb(230,176,80);
+    color: white;
+    padding: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 18vw;
+    text-align: left;
+}
+
+.yellowNavKnapp, .yellowNavKnappSelected {
+    background-color: transparent;
+    text-align: left;
+    color: white;
+    width: 15vw;
+    font-weight: bolder;
+}
+.yellowNavKnappSelected {
+    background-color: rgba(255, 210, 131, 0.584);
+}
+
+.yellowNavKnapp:hover, .yellowNavKnappSelected:hover {
+    background-color: rgb(255, 185, 63);
+}
+
+.contentboxMid{
+    background-color: #e6b050;
+    margin-top: 180px;
+    margin-bottom: 20px;
+    width: 70%;
+    text-align: center;
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+}
+
