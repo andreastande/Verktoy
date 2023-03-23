@@ -7,6 +7,8 @@ from .forms import ListingForm, EditListingForm, ReviewForm
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from datetime import date
+from django.utils import timezone
 
 # Create your views here.
 
@@ -30,7 +32,6 @@ def createAgreement(listing, agreement_request):
 #Sletter forespørsel om avtale
 def declineAgreement(agreement_request):
         agreement_request.delete()
-
 #Henter en spesifikk annonse, spesifisert med annonse_id
 @login_required
 def listing(request, listing_id):
@@ -72,7 +73,7 @@ def listing(request, listing_id):
     if listing.owner == request.user:
         myListing = True
         if listing.loaned:
-            loanedBy = listing.agreement_listing.get(owner=listing.owner).loaner
+            loanedBy = listing.agreement_listing.filter(owner=listing.owner, active=True)[0].loaner
         context = {'listing': listing, 'notRequested': notRequested, 'loanedBy': loanedBy, 'agreement_requests':agreementRequests, 'reviews':reviews, 'averageReviewScore':averageReviewScore}
         return render(request, 'homepage/my_listing.html', context)
 
@@ -255,3 +256,15 @@ def remove_listing(request, listing_id):
         if requests.loaner == request.user:
             notRequested= False
     return render(request, 'homepage/listing.html', {'listing': listing, 'notRequested': notRequested})     
+
+
+def end_agreement(request, listing_id):
+    if request.POST.get('end_agree'):
+        listing = get_object_or_404(Listing, pk = listing_id)
+        agreement=Agreement.objects.filter(listing=listing, active=True).order_by('-start_date').first()
+        agreement.end_date=timezone.now()
+        agreement.active=False
+        agreement.save()
+        listing.loaned=False
+        listing.save()
+    return render(request, 'homepage/listing.html', {'listing': listing})

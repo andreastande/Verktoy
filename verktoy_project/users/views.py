@@ -38,6 +38,8 @@ def signup(request):
 #Henter min profil-siden
 @login_required
 def my_profile(request):
+    previous_loaned_out_agreements=Agreement.objects.filter(owner=current_user).filter(active=False)
+    previous_loaned_agreements=Agreement.objects.filter(loaner=current_user).filter(active=False)
     current_user = request.user
     user_profile = current_user.profile
     activePage = "Settings"
