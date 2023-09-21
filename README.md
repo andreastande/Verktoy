@@ -2,7 +2,7 @@
 
 # Verktoy - Group gr2251 project
 
-"Lån" er en applikasjon hvor du kan opprette annonser for verktøy du ønsker å selge eller kjøpe. Prosjektet er laget av gruppe 45 i emnet TDT4140 ved NYNU. Selve kodingsprosjektet finner du i mappen **verktoy_project**.
+"Lån" er en applikasjon hvor du kan opprette annonser for verktøy du ønsker å selge eller kjøpe. Prosjektet er laget av gruppe 45 i emnet TDT4140 ved NTNU. Selve kodingsprosjektet finner du i mappen **verktoy_project**.
 
 ## Bygging
 
